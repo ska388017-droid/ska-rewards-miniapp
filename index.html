@@ -1,536 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SKA Rewards</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  background:#07140f;
-  color:#fff;
-  min-height:100vh;
-}
-
-.app{
-  max-width:480px;
-  margin:auto;
-  padding:22px 18px 95px;
-}
-
-.logo{
-  width:105px;
-  height:105px;
-  border-radius:50%;
-  background:linear-gradient(145deg,#f5d15b,#a87908);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:5px auto 18px;
-  border:4px solid #e7c54c;
-  box-shadow:0 0 25px rgba(231,197,76,.25);
-}
-
-.logo span{
-  font-size:34px;
-  font-weight:bold;
-  color:#07140f;
-}
-
-h1{
-  text-align:center;
-  font-size:30px;
-  margin-bottom:6px;
-}
-
-.subtitle{
-  text-align:center;
-  color:#aab5b0;
-  font-size:17px;
-  margin-bottom:25px;
-}
-
-.balance{
-  background:linear-gradient(135deg,#0c3926,#0b291d);
-  border:1px solid #285c45;
-  border-radius:25px;
-  padding:25px 18px;
-  text-align:center;
-  margin-bottom:15px;
-}
-
-.balance small{
-  color:#b5c2bc;
-  font-size:16px;
-}
-
-.balance h2{
-  color:#f0ce55;
-  font-size:50px;
-  margin:7px 0;
-}
-
-.balance p{
-  color:#b5c2bc;
-}
-
-.eid{
-  background:#0d2119;
-  border:1px solid #234a39;
-  border-radius:17px;
-  padding:15px;
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.eid small{
-  display:block;
-  color:#9eaaa5;
-  margin-bottom:5px;
-}
-
-.eid strong{
-  color:#f0ce55;
-  font-size:20px;
-  word-break:break-all;
-}
-
-.section{
-  display:none;
-}
-
-.section.active{
-  display:block;
-}
-
-.section-title{
-  font-size:25px;
-  margin:20px 0 15px;
-}
-
-.info-card{
-  background:#0d2119;
-  border:1px solid #234a39;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:13px;
-}
-
-.info-card h3{
-  font-size:20px;
-  margin-bottom:8px;
-}
-
-.info-card p{
-  color:#aab5b0;
-  line-height:1.5;
-}
-
-.task{
-  background:#0d2119;
-  border:1px solid #234a39;
-  border-radius:18px;
-  padding:17px;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-
-.task h3{
-  font-size:18px;
-  margin-bottom:5px;
-}
-
-.task p{
-  color:#9eaaa5;
-  font-size:14px;
-}
-
-button{
-  border:none;
-  background:#e4c34d;
-  color:#10170f;
-  font-weight:bold;
-  padding:11px 17px;
-  border-radius:11px;
-  font-size:14px;
-}
-
-.referral-box{
-  background:#0d2119;
-  border:1px solid #234a39;
-  border-radius:20px;
-  padding:22px;
-  text-align:center;
-}
-
-.referral-box h2{
-  color:#f0ce55;
-  margin-bottom:10px;
-}
-
-.referral-box p{
-  color:#aab5b0;
-  line-height:1.5;
-  margin-bottom:18px;
-}
-
-.referral-link{
-  background:#07140f;
-  border:1px solid #234a39;
-  border-radius:12px;
-  padding:12px;
-  font-size:13px;
-  word-break:break-all;
-  margin-bottom:15px;
-  color:#dce5e0;
-}
-
-.profile-row{
-  background:#0d2119;
-  border:1px solid #234a39;
-  border-radius:17px;
-  padding:17px;
-  margin-bottom:12px;
-}
-
-.profile-row span{
-  display:block;
-  color:#9eaaa5;
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.profile-row strong{
-  font-size:17px;
-}
-
-.message{
-  text-align:center;
-  color:#e4c34d;
-  margin-top:15px;
-  min-height:24px;
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:480px;
-  height:76px;
-  background:#0b1d16;
-  border-top:1px solid #234a39;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:100;
-  padding-bottom:5px;
-}
-
-.nav-btn{
-  background:none;
-  color:#899891;
-  padding:7px 10px;
-  font-size:12px;
-  font-weight:normal;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-}
-
-.nav-btn .icon{
-  font-size:24px;
-}
-
-.nav-btn.active{
-  color:#f0ce55;
-}
-
-@media(min-width:481px){
-  .bottom-nav{
-    border-radius:18px 18px 0 0;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-  <!-- HOME -->
-  <section id="home" class="section active">
-
-    <div class="logo">
-      <span>SKA</span>
-    </div>
-
-    <h1>SKA Rewards</h1>
-    <div class="subtitle">Complete tasks. Earn rewards.</div>
-
-    <div class="balance">
-      <small>Your Balance</small>
-      <h2 id="balance">$0.00</h2>
-      <p>USDT Rewards</p>
-    </div>
-
-    <div class="eid">
-      <small>Your EID</small>
-      <strong id="userEid">Loading...</strong>
-    </div>
-
-    <div class="info-card">
-      <h3>🎁 Welcome to SKA Rewards</h3>
-      <p>Complete eligible tasks, collect rewards and invite friends through your referral program.</p>
-    </div>
-
-    <div class="info-card">
-      <h3>🚀 Start Earning</h3>
-      <p>Open the Tasks tab below to see available reward opportunities.</p>
-    </div>
-
-  </section>
-
-
-  <!-- TASKS -->
-  <section id="tasks" class="section">
-
-    <div class="section-title">🎯 Daily Tasks</div>
-
-    <div class="task">
-      <div>
-        <h3>Daily Check-in</h3>
-        <p>Claim your daily reward</p>
-      </div>
-      <button onclick="claim(0.01)">Claim</button>
-    </div>
-
-    <div class="task">
-      <div>
-        <h3>Follow & Earn</h3>
-        <p>Complete the available task</p>
-      </div>
-      <button onclick="claim(0.02)">Earn</button>
-    </div>
-
-    <div class="task">
-      <div>
-        <h3>Community Task</h3>
-        <p>Complete the community task</p>
-      </div>
-      <button onclick="claim(0.03)">Earn</button>
-    </div>
-
-    <div class="message" id="message"></div>
-
-  </section>
-
-
-  <!-- REFERRAL -->
-  <section id="referral" class="section">
-
-    <div class="section-title">👥 Referral Program</div>
-
-    <div class="referral-box">
-
-      <h2>Invite Friends</h2>
-
-      <p>
-        Share your referral link with friends and earn eligible referral rewards.
-      </p>
-
-      <div class="referral-link" id="referralLink">
-        Loading...
-      </div>
-
-      <button onclick="shareReferral()">
-        Share Referral Link
-      </button>
-
-    </div>
-
-    <div class="info-card" style="margin-top:15px;">
-      <h3>🔗 Your Referral EID</h3>
-      <p id="referralEid">Loading...</p>
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE -->
-  <section id="profile" class="section">
-
-    <div class="section-title">👤 Profile</div>
-
-    <div class="profile-row">
-      <span>Your EID</span>
-      <strong id="profileEid">Loading...</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>Telegram User ID</span>
-      <strong id="telegramId">Not available</strong>
-    </div>
-
-    <div class="profile-row">
-      <span>Telegram Name</span>
-      <strong id="telegramName">Guest</strong>
-    </div>
-
-    <div class="section-title">💼 Wallet</div>
-
-    <div class="info-card">
-      <h3>USDT Wallet</h3>
-      <p>Wallet management will be connected to the secure backend in the next step.</p>
-    </div>
-
-    <div class="section-title">💸 Withdraw</div>
-
-    <div class="info-card">
-      <h3>Withdraw Rewards</h3>
-      <p>Withdrawal functionality will be enabled after the secure backend and withdrawal rules are connected.</p>
-    </div>
-
-  </section>
-
-</div>
-
-
-<!-- BOTTOM NAVIGATION -->
-<div class="bottom-nav">
-
-  <button class="nav-btn active" onclick="showTab('home',this)">
-    <span class="icon">🏠</span>
-    Home
-  </button>
-
-  <button class="nav-btn" onclick="showTab('tasks',this)">
-    <span class="icon">🎯</span>
-    Tasks
-  </button>
-
-  <button class="nav-btn" onclick="showTab('referral',this)">
-    <span class="icon">👥</span>
-    Referral
-  </button>
-
-  <button class="nav-btn" onclick="showTab('profile',this)">
-    <span class="icon">👤</span>
-    Profile
-  </button>
-
-</div>
-
-
-<script>
-
-const tg = window.Telegram.WebApp;
-
-tg.ready();
-tg.expand();
-
-const telegramUser = tg.initDataUnsafe?.user;
-
-const telegramId = telegramUser?.id || null;
-
-const eid = telegramId
-  ? "SKA-" + telegramId
-  : "SKA-GUEST";
-
-document.getElementById("userEid").textContent = eid;
-document.getElementById("profileEid").textContent = eid;
-document.getElementById("referralEid").textContent = eid;
-
-if(telegramId){
-  document.getElementById("telegramId").textContent = telegramId;
-}
-
-if(telegramUser){
-
-  let name = telegramUser.first_name || "";
-
-  if(telegramUser.last_name){
-    name += " " + telegramUser.last_name;
-  }
-
-  document.getElementById("telegramName").textContent =
-    name || "Telegram User";
-}
-
-
-const referralLink =
-  "https://t.me/SKA_RewardsBot?start=ref_" + eid;
-
-document.getElementById("referralLink").textContent =
-  referralLink;
-
-
-let balance = 0;
-
-
-function showTab(tabId, button){
-
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active");
-  });
-
-  document.getElementById(tabId).classList.add("active");
-
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-function claim(amount){
-
-  balance += amount;
-
-  document.getElementById("balance").textContent =
-    "$" + balance.toFixed(2);
-
-  document.getElementById("message").textContent =
-    "Reward added: $" + amount.toFixed(2);
-
-}
-
-
-function shareReferral(){
-
-  const shareUrl =
-    "https://t.me/share/url?url=" +
-    encodeURIComponent(referralLink) +
-    "&text=" +
-    encodeURIComponent(
-      "Join SKA Rewards and earn eligible rewards!"
-    );
-
-  tg.openTelegramLink(shareUrl);
-
-}
-
-</script>
-
-</body>
-</html>
+Update my existing Telegram Mini App called "SKA Rewards".
+
+IMPORTANT:
+- Keep all existing functionality working.
+- Do not remove Telegram WebApp integration.
+- Keep the current dark green + gold theme.
+- Keep the SKA Rewards branding.
+- Keep the existing EID system.
+- Make the UI much more compact and professional for mobile phones.
+- Do NOT create a completely different design.
+
+UI CHANGES:
+
+1. Make everything smaller and cleaner:
+   - Logo smaller
+   - SKA Rewards heading smaller
+   - Subtitle smaller
+   - Balance card smaller and less tall
+   - Text sizes smaller
+   - Cards more compact
+   - Reduce unnecessary padding and spacing
+   - Tasks should be compact
+   - Buttons should be smaller
+   - Bottom navigation should be compact
+
+2. EID:
+   - Remove the large EID card from the middle of the Home page.
+   - Show the user's EID as a small badge at the TOP-RIGHT of the Home page.
+   - Example:
+     EID: SKA-7297264141
+   - Keep the EID generated from the Telegram user ID.
+   - Do not change the EID format.
+
+3. Bottom navigation:
+   Keep exactly 4 tabs:
+   🏠 Home
+   🎯 Tasks
+   👥 Referral
+   👤 Profile
+
+4. HOME:
+   - Small logo
+   - Small title
+   - Compact balance card
+   - Small EID badge at top-right
+   - Short welcome section
+   - Short earning overview
+   - Avoid large empty spaces.
+
+5. TASKS:
+   - Show available tasks in compact cards.
+   - Keep task buttons.
+   - Keep the existing reward functionality.
+
+6. REFERRAL:
+   - Keep referral link functionality.
+   - Show the user's EID/referral information.
+   - Make the referral section compact.
+
+7. PROFILE:
+   - Show Telegram User ID.
+   - Show EID.
+   - Show Telegram name.
+   - Keep Wallet and Withdrawal sections.
+   - Keep them compact.
+
+8. MOBILE FIRST:
+   - Design specifically for Telegram Mini App on Android phones.
+   - Everything should fit comfortably on a small screen.
+   - Avoid oversized cards and headings.
+   - Bottom navigation must remain fixed at the bottom.
+
+9. IMPORTANT:
+   - Return the COMPLETE updated index.html file.
+   - Do not give partial code.
+   - Make sure the HTML, CSS and JavaScript are all included in one file.
+   - Make sure there are no syntax errors.
