@@ -1,77 +1,310 @@
-Update my existing Telegram Mini App called "SKA Rewards".
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKA Rewards</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-IMPORTANT:
-- Keep all existing functionality working.
-- Do not remove Telegram WebApp integration.
-- Keep the current dark green + gold theme.
-- Keep the SKA Rewards branding.
-- Keep the existing EID system.
-- Make the UI much more compact and professional for mobile phones.
-- Do NOT create a completely different design.
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#07140f;color:#fff;min-height:100vh}
+.app{max-width:480px;margin:auto;padding:14px 14px 78px;position:relative}
 
-UI CHANGES:
+.eid{
+position:absolute;right:14px;top:10px;
+background:#0d2119;border:1px solid #315944;
+border-radius:9px;padding:5px 8px;z-index:5
+}
+.eid small{color:#9eaaa5;font-size:9px}
+.eid strong{color:#f0ce55;font-size:11px;margin-left:3px}
 
-1. Make everything smaller and cleaner:
-   - Logo smaller
-   - SKA Rewards heading smaller
-   - Subtitle smaller
-   - Balance card smaller and less tall
-   - Text sizes smaller
-   - Cards more compact
-   - Reduce unnecessary padding and spacing
-   - Tasks should be compact
-   - Buttons should be smaller
-   - Bottom navigation should be compact
+.logo{
+width:72px;height:72px;border-radius:50%;
+background:linear-gradient(145deg,#f5d15b,#a87908);
+display:flex;align-items:center;justify-content:center;
+margin:4px auto 9px;border:3px solid #e7c54c
+}
+.logo span{font-size:23px;font-weight:bold;color:#07140f}
 
-2. EID:
-   - Remove the large EID card from the middle of the Home page.
-   - Show the user's EID as a small badge at the TOP-RIGHT of the Home page.
-   - Example:
-     EID: SKA-7297264141
-   - Keep the EID generated from the Telegram user ID.
-   - Do not change the EID format.
+h1{text-align:center;font-size:24px;margin-bottom:3px}
+.subtitle{text-align:center;color:#aab5b0;font-size:13px;margin-bottom:15px}
 
-3. Bottom navigation:
-   Keep exactly 4 tabs:
-   🏠 Home
-   🎯 Tasks
-   👥 Referral
-   👤 Profile
+.balance{
+background:linear-gradient(135deg,#0c3926,#0b291d);
+border:1px solid #285c45;border-radius:17px;
+padding:15px;text-align:center;margin-bottom:10px
+}
+.balance small{color:#b5c2bc;font-size:13px}
+.balance h2{color:#f0ce55;font-size:36px;margin:3px 0}
+.balance p{color:#b5c2bc;font-size:13px}
 
-4. HOME:
-   - Small logo
-   - Small title
-   - Compact balance card
-   - Small EID badge at top-right
-   - Short welcome section
-   - Short earning overview
-   - Avoid large empty spaces.
+.section{display:none}
+.section.active{display:block}
 
-5. TASKS:
-   - Show available tasks in compact cards.
-   - Keep task buttons.
-   - Keep the existing reward functionality.
+.card{
+background:#0d2119;border:1px solid #234a39;
+border-radius:15px;padding:14px;margin-bottom:9px
+}
+.card h3{font-size:17px;margin-bottom:5px}
+.card p{color:#aab5b0;font-size:13px;line-height:1.4}
 
-6. REFERRAL:
-   - Keep referral link functionality.
-   - Show the user's EID/referral information.
-   - Make the referral section compact.
+.title{font-size:21px;margin:14px 0 10px}
 
-7. PROFILE:
-   - Show Telegram User ID.
-   - Show EID.
-   - Show Telegram name.
-   - Keep Wallet and Withdrawal sections.
-   - Keep them compact.
+.task{
+background:#0d2119;border:1px solid #234a39;
+border-radius:14px;padding:12px;margin-bottom:8px;
+display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.task h3{font-size:15px;margin-bottom:4px}
+.task p{color:#9eaaa5;font-size:11px}
 
-8. MOBILE FIRST:
-   - Design specifically for Telegram Mini App on Android phones.
-   - Everything should fit comfortably on a small screen.
-   - Avoid oversized cards and headings.
-   - Bottom navigation must remain fixed at the bottom.
+button{
+border:0;background:#e4c34d;color:#10170f;
+font-weight:bold;padding:9px 13px;
+border-radius:9px;font-size:12px
+}
 
-9. IMPORTANT:
-   - Return the COMPLETE updated index.html file.
-   - Do not give partial code.
-   - Make sure the HTML, CSS and JavaScript are all included in one file.
-   - Make sure there are no syntax errors.
+.refbox{
+background:#0d2119;border:1px solid #234a39;
+border-radius:16px;padding:18px;text-align:center
+}
+.refbox h2{color:#f0ce55;font-size:20px;margin-bottom:7px}
+.refbox p{color:#aab5b0;font-size:13px;line-height:1.4;margin-bottom:13px}
+.link{
+background:#07140f;border:1px solid #234a39;
+border-radius:9px;padding:9px;font-size:11px;
+word-break:break-all;margin-bottom:12px
+}
+
+.profile{
+background:#0d2119;border:1px solid #234a39;
+border-radius:14px;padding:13px;margin-bottom:8px
+}
+.profile span{display:block;color:#9eaaa5;font-size:11px;margin-bottom:4px}
+.profile strong{font-size:15px}
+
+.message{text-align:center;color:#e4c34d;font-size:13px;margin-top:12px}
+
+.bottom{
+position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+width:100%;max-width:480px;height:62px;
+background:#0b1d16;border-top:1px solid #234a39;
+display:flex;justify-content:space-around;align-items:center;
+z-index:100
+}
+.nav{
+background:none;color:#899891;padding:3px 8px;
+font-size:10px;font-weight:normal;
+display:flex;flex-direction:column;align-items:center;gap:2px
+}
+.nav .icon{font-size:19px}
+.nav.active{color:#f0ce55}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div id="home" class="section active">
+
+<div class="eid">
+<small>EID</small>
+<strong id="eid">Loading...</strong>
+</div>
+
+<div class="logo"><span>SKA</span></div>
+<h1>SKA Rewards</h1>
+<div class="subtitle">Complete tasks. Earn rewards.</div>
+
+<div class="balance">
+<small>Your Balance</small>
+<h2 id="balance">$0.00</h2>
+<p>USDT Rewards</p>
+</div>
+
+<div class="card">
+<h3>🎁 Welcome to SKA Rewards</h3>
+<p>Complete eligible tasks, collect rewards and invite friends.</p>
+</div>
+
+<div class="card">
+<h3>🚀 Start Earning</h3>
+<p>Open the Tasks tab below to see available rewards.</p>
+</div>
+
+</div>
+
+
+<div id="tasks" class="section">
+
+<div class="title">🎯 Daily Tasks</div>
+
+<div class="task">
+<div>
+<h3>Daily Check-in</h3>
+<p>Claim your daily reward</p>
+</div>
+<button onclick="claim(0.01)">Claim</button>
+</div>
+
+<div class="task">
+<div>
+<h3>Follow & Earn</h3>
+<p>Complete the available task</p>
+</div>
+<button onclick="claim(0.02)">Earn</button>
+</div>
+
+<div class="task">
+<div>
+<h3>Community Task</h3>
+<p>Complete the community task</p>
+</div>
+<button onclick="claim(0.03)">Earn</button>
+</div>
+
+<div class="message" id="message"></div>
+
+</div>
+
+
+<div id="referral" class="section">
+
+<div class="title">👥 Referral</div>
+
+<div class="refbox">
+<h2>Invite Friends</h2>
+<p>Share your referral link and earn eligible referral rewards.</p>
+
+<div class="link" id="refLink">Loading...</div>
+
+<button onclick="shareReferral()">Share Link</button>
+</div>
+
+</div>
+
+
+<div id="profile" class="section">
+
+<div class="title">👤 Profile</div>
+
+<div class="profile">
+<span>Your EID</span>
+<strong id="profileEid">Loading...</strong>
+</div>
+
+<div class="profile">
+<span>Telegram User ID</span>
+<strong id="telegramId">Not available</strong>
+</div>
+
+<div class="profile">
+<span>Telegram Name</span>
+<strong id="telegramName">Guest</strong>
+</div>
+
+<div class="title">💼 Wallet</div>
+
+<div class="card">
+<h3>USDT Wallet</h3>
+<p>Wallet management will be connected to the secure backend.</p>
+</div>
+
+<div class="title">💸 Withdraw</div>
+
+<div class="card">
+<h3>Withdraw Rewards</h3>
+<p>Withdrawal will be enabled after the secure backend is connected.</p>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="bottom">
+
+<button class="nav active" onclick="tab('home',this)">
+<span class="icon">🏠</span>Home
+</button>
+
+<button class="nav" onclick="tab('tasks',this)">
+<span class="icon">🎯</span>Tasks
+</button>
+
+<button class="nav" onclick="tab('referral',this)">
+<span class="icon">👥</span>Referral
+</button>
+
+<button class="nav" onclick="tab('profile',this)">
+<span class="icon">👤</span>Profile
+</button>
+
+</div>
+
+
+<script>
+
+const tg=window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const user=tg.initDataUnsafe?.user;
+const telegramId=user?.id||null;
+const eid=telegramId?"SKA-"+telegramId:"SKA-GUEST";
+
+document.getElementById("eid").textContent=eid;
+document.getElementById("profileEid").textContent=eid;
+
+if(telegramId){
+document.getElementById("telegramId").textContent=telegramId;
+}
+
+if(user){
+let name=user.first_name||"";
+if(user.last_name) name+=" "+user.last_name;
+document.getElementById("telegramName").textContent=name||"Telegram User";
+}
+
+const referralLink="https://t.me/SKA_RewardsBot?start=ref_"+eid;
+document.getElementById("refLink").textContent=referralLink;
+
+let balance=0;
+
+function tab(id,btn){
+
+document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+
+document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+
+window.scrollTo(0,0);
+}
+
+function claim(amount){
+
+balance+=amount;
+
+document.getElementById("balance").textContent="$"+balance.toFixed(2);
+
+document.getElementById("message").textContent=
+"Reward added: $"+amount.toFixed(2);
+}
+
+function shareReferral(){
+
+const url="https://t.me/share/url?url="+
+encodeURIComponent(referralLink)+
+"&text="+
+encodeURIComponent("Join SKA Rewards and earn eligible rewards!");
+
+tg.openTelegramLink(url);
+}
+
+</script>
+
+</body>
+</html>
