@@ -4,102 +4,312 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SKA Rewards</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#07140f;color:#fff;min-height:100vh}
-.app{max-width:480px;margin:auto;padding:14px 14px 78px;position:relative}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
+body{
+  background:#07140f;
+  color:#fff;
+  min-height:100vh;
+}
+
+.app{
+  max-width:480px;
+  margin:auto;
+  padding:14px 14px 82px;
+  position:relative;
+}
+
+/* EID */
 .eid{
-position:absolute;right:14px;top:10px;
-background:#0d2119;border:1px solid #315944;
-border-radius:9px;padding:5px 8px;z-index:5
+  position:absolute;
+  right:14px;
+  top:10px;
+  background:#0d2119;
+  border:1px solid #315944;
+  border-radius:9px;
+  padding:5px 8px;
+  z-index:5;
 }
-.eid small{color:#9eaaa5;font-size:9px}
-.eid strong{color:#f0ce55;font-size:11px;margin-left:3px}
 
+.eid small{
+  color:#9eaaa5;
+  font-size:9px;
+}
+
+.eid strong{
+  color:#f0ce55;
+  font-size:11px;
+  margin-left:3px;
+}
+
+/* HOME */
 .logo{
-width:72px;height:72px;border-radius:50%;
-background:linear-gradient(145deg,#f5d15b,#a87908);
-display:flex;align-items:center;justify-content:center;
-margin:4px auto 9px;border:3px solid #e7c54c
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#f5d15b,#a87908);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:4px auto 9px;
+  border:3px solid #e7c54c;
 }
-.logo span{font-size:23px;font-weight:bold;color:#07140f}
 
-h1{text-align:center;font-size:24px;margin-bottom:3px}
-.subtitle{text-align:center;color:#aab5b0;font-size:13px;margin-bottom:15px}
+.logo span{
+  font-size:23px;
+  font-weight:bold;
+  color:#07140f;
+}
+
+h1{
+  text-align:center;
+  font-size:24px;
+  margin-bottom:3px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#aab5b0;
+  font-size:13px;
+  margin-bottom:15px;
+}
 
 .balance{
-background:linear-gradient(135deg,#0c3926,#0b291d);
-border:1px solid #285c45;border-radius:17px;
-padding:15px;text-align:center;margin-bottom:10px
+  background:linear-gradient(135deg,#0c3926,#0b291d);
+  border:1px solid #285c45;
+  border-radius:17px;
+  padding:15px;
+  text-align:center;
+  margin-bottom:10px;
 }
-.balance small{color:#b5c2bc;font-size:13px}
-.balance h2{color:#f0ce55;font-size:36px;margin:3px 0}
-.balance p{color:#b5c2bc;font-size:13px}
 
-.section{display:none}
-.section.active{display:block}
+.balance small{
+  color:#b5c2bc;
+  font-size:13px;
+}
 
+.balance h2{
+  color:#f0ce55;
+  font-size:36px;
+  margin:3px 0;
+}
+
+.balance p{
+  color:#b5c2bc;
+  font-size:13px;
+}
+
+/* SECTIONS */
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.title{
+  font-size:21px;
+  margin:14px 0 10px;
+}
+
+/* CARDS */
 .card{
-background:#0d2119;border:1px solid #234a39;
-border-radius:15px;padding:14px;margin-bottom:9px
+  background:#0d2119;
+  border:1px solid #234a39;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:9px;
 }
-.card h3{font-size:17px;margin-bottom:5px}
-.card p{color:#aab5b0;font-size:13px;line-height:1.4}
 
-.title{font-size:21px;margin:14px 0 10px}
+.card h3{
+  font-size:17px;
+  margin-bottom:5px;
+}
 
+.card p{
+  color:#aab5b0;
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* TASKS */
 .task{
-background:#0d2119;border:1px solid #234a39;
-border-radius:14px;padding:12px;margin-bottom:8px;
-display:flex;align-items:center;justify-content:space-between;gap:10px
+  background:#0d2119;
+  border:1px solid #234a39;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
-.task h3{font-size:15px;margin-bottom:4px}
-.task p{color:#9eaaa5;font-size:11px}
 
+.task h3{
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.task p{
+  color:#9eaaa5;
+  font-size:11px;
+}
+
+/* BUTTON */
 button{
-border:0;background:#e4c34d;color:#10170f;
-font-weight:bold;padding:9px 13px;
-border-radius:9px;font-size:12px
+  border:0;
+  background:#e4c34d;
+  color:#10170f;
+  font-weight:bold;
+  padding:9px 13px;
+  border-radius:9px;
+  font-size:12px;
 }
 
+/* REFERRAL */
 .refbox{
-background:#0d2119;border:1px solid #234a39;
-border-radius:16px;padding:18px;text-align:center
+  background:#0d2119;
+  border:1px solid #234a39;
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
 }
-.refbox h2{color:#f0ce55;font-size:20px;margin-bottom:7px}
-.refbox p{color:#aab5b0;font-size:13px;line-height:1.4;margin-bottom:13px}
+
+.refbox h2{
+  color:#f0ce55;
+  font-size:20px;
+  margin-bottom:7px;
+}
+
+.refbox p{
+  color:#aab5b0;
+  font-size:13px;
+  line-height:1.4;
+  margin-bottom:13px;
+}
+
 .link{
-background:#07140f;border:1px solid #234a39;
-border-radius:9px;padding:9px;font-size:11px;
-word-break:break-all;margin-bottom:12px
+  background:#07140f;
+  border:1px solid #234a39;
+  border-radius:9px;
+  padding:9px;
+  font-size:11px;
+  word-break:break-all;
+  margin-bottom:12px;
 }
 
+/* WALLET */
+.wallet-balance{
+  background:linear-gradient(135deg,#0c3926,#0b291d);
+  border:1px solid #285c45;
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.wallet-balance small{
+  color:#aab5b0;
+  font-size:13px;
+}
+
+.wallet-balance h2{
+  color:#f0ce55;
+  font-size:30px;
+  margin-top:5px;
+}
+
+.input-box{
+  width:100%;
+  background:#07140f;
+  color:#fff;
+  border:1px solid #315944;
+  border-radius:10px;
+  padding:11px;
+  font-size:13px;
+  outline:none;
+  margin:8px 0 10px;
+}
+
+.input-box::placeholder{
+  color:#718078;
+}
+
+/* PROFILE */
 .profile{
-background:#0d2119;border:1px solid #234a39;
-border-radius:14px;padding:13px;margin-bottom:8px
+  background:#0d2119;
+  border:1px solid #234a39;
+  border-radius:14px;
+  padding:13px;
+  margin-bottom:8px;
 }
-.profile span{display:block;color:#9eaaa5;font-size:11px;margin-bottom:4px}
-.profile strong{font-size:15px}
 
-.message{text-align:center;color:#e4c34d;font-size:13px;margin-top:12px}
+.profile span{
+  display:block;
+  color:#9eaaa5;
+  font-size:11px;
+  margin-bottom:4px;
+}
 
+.profile strong{
+  font-size:15px;
+  word-break:break-all;
+}
+
+.message{
+  text-align:center;
+  color:#e4c34d;
+  font-size:13px;
+  margin-top:12px;
+  min-height:24px;
+}
+
+/* BOTTOM NAV */
 .bottom{
-position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-width:100%;max-width:480px;height:62px;
-background:#0b1d16;border-top:1px solid #234a39;
-display:flex;justify-content:space-around;align-items:center;
-z-index:100
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  height:62px;
+  background:#0b1d16;
+  border-top:1px solid #234a39;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
 }
+
 .nav{
-background:none;color:#899891;padding:3px 8px;
-font-size:10px;font-weight:normal;
-display:flex;flex-direction:column;align-items:center;gap:2px
+  background:none;
+  color:#899891;
+  padding:3px 5px;
+  font-size:9px;
+  font-weight:normal;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
 }
-.nav .icon{font-size:19px}
-.nav.active{color:#f0ce55}
+
+.nav .icon{
+  font-size:18px;
+}
+
+.nav.active{
+  color:#f0ce55;
+}
 </style>
 </head>
 
@@ -107,202 +317,385 @@ display:flex;flex-direction:column;align-items:center;gap:2px
 
 <div class="app">
 
+<!-- HOME -->
 <div id="home" class="section active">
 
-<div class="eid">
-<small>EID</small>
-<strong id="eid">Loading...</strong>
+  <div class="eid">
+    <small>EID</small>
+    <strong id="eid">Loading...</strong>
+  </div>
+
+  <div class="logo">
+    <span>SKA</span>
+  </div>
+
+  <h1>SKA Rewards</h1>
+
+  <div class="subtitle">
+    Complete tasks. Earn rewards.
+  </div>
+
+  <div class="balance">
+    <small>Your Balance</small>
+    <h2 id="balance">$0.00</h2>
+    <p>USDT Rewards</p>
+  </div>
+
+  <div class="card">
+    <h3>🎁 Welcome to SKA Rewards</h3>
+    <p>
+      Complete eligible tasks, collect rewards and invite friends.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>🚀 Start Earning</h3>
+    <p>
+      Open the Tasks tab below to see available rewards.
+    </p>
+  </div>
+
 </div>
 
-<div class="logo"><span>SKA</span></div>
-<h1>SKA Rewards</h1>
-<div class="subtitle">Complete tasks. Earn rewards.</div>
 
-<div class="balance">
-<small>Your Balance</small>
-<h2 id="balance">$0.00</h2>
-<p>USDT Rewards</p>
-</div>
-
-<div class="card">
-<h3>🎁 Welcome to SKA Rewards</h3>
-<p>Complete eligible tasks, collect rewards and invite friends.</p>
-</div>
-
-<div class="card">
-<h3>🚀 Start Earning</h3>
-<p>Open the Tasks tab below to see available rewards.</p>
-</div>
-
-</div>
-
-
+<!-- TASKS -->
 <div id="tasks" class="section">
 
-<div class="title">🎯 Daily Tasks</div>
+  <div class="title">🎯 Tasks</div>
 
-<div class="task">
-<div>
-<h3>Daily Check-in</h3>
-<p>Claim your daily reward</p>
-</div>
-<button onclick="claim(0.01)">Claim</button>
+  <div class="task">
+    <div>
+      <h3>Daily Check-in</h3>
+      <p>Claim your daily reward</p>
+    </div>
+    <button onclick="claim(0.01)">Claim</button>
+  </div>
+
+  <div class="task">
+    <div>
+      <h3>Follow & Earn</h3>
+      <p>Complete the available task</p>
+    </div>
+    <button onclick="claim(0.02)">Earn</button>
+  </div>
+
+  <div class="task">
+    <div>
+      <h3>Community Task</h3>
+      <p>Complete the community task</p>
+    </div>
+    <button onclick="claim(0.03)">Earn</button>
+  </div>
+
+  <div class="message" id="message"></div>
+
 </div>
 
-<div class="task">
-<div>
-<h3>Follow & Earn</h3>
-<p>Complete the available task</p>
-</div>
-<button onclick="claim(0.02)">Earn</button>
-</div>
 
-<div class="task">
-<div>
-<h3>Community Task</h3>
-<p>Complete the community task</p>
-</div>
-<button onclick="claim(0.03)">Earn</button>
-</div>
-
-<div class="message" id="message"></div>
-
-</div>
-
-
+<!-- REFERRAL -->
 <div id="referral" class="section">
 
-<div class="title">👥 Referral</div>
+  <div class="title">👥 Referral</div>
 
-<div class="refbox">
-<h2>Invite Friends</h2>
-<p>Share your referral link and earn eligible referral rewards.</p>
+  <div class="refbox">
 
-<div class="link" id="refLink">Loading...</div>
+    <h2>Invite Friends</h2>
 
-<button onclick="shareReferral()">Share Link</button>
+    <p>
+      Share your referral link and earn eligible referral rewards.
+    </p>
+
+    <div class="link" id="refLink">
+      Loading...
+    </div>
+
+    <button onclick="shareReferral()">
+      Share Link
+    </button>
+
+  </div>
+
 </div>
 
+
+<!-- WALLET -->
+<div id="wallet" class="section">
+
+  <div class="title">💼 Wallet</div>
+
+  <div class="wallet-balance">
+    <small>Available USDT</small>
+    <h2 id="walletBalance">$0.00</h2>
+  </div>
+
+  <div class="card">
+    <h3>💳 USDT Wallet Address</h3>
+
+    <input
+      id="walletAddress"
+      class="input-box"
+      type="text"
+      placeholder="Enter your USDT wallet address"
+    >
+
+    <button onclick="saveWallet()">
+      Save Wallet
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>💸 Withdraw</h3>
+
+    <p>
+      Withdrawal will be available after the secure backend and withdrawal rules are connected.
+    </p>
+
+    <br>
+
+    <button onclick="withdraw()">
+      Withdraw
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>📋 Withdrawal History</h3>
+
+    <p>
+      No withdrawal history yet.
+    </p>
+  </div>
+
 </div>
 
 
+<!-- PROFILE -->
 <div id="profile" class="section">
 
-<div class="title">👤 Profile</div>
+  <div class="title">👤 Profile</div>
 
-<div class="profile">
-<span>Your EID</span>
-<strong id="profileEid">Loading...</strong>
-</div>
+  <div class="profile">
+    <span>Your EID</span>
+    <strong id="profileEid">Loading...</strong>
+  </div>
 
-<div class="profile">
-<span>Telegram User ID</span>
-<strong id="telegramId">Not available</strong>
-</div>
+  <div class="profile">
+    <span>Telegram User ID</span>
+    <strong id="telegramId">Not available</strong>
+  </div>
 
-<div class="profile">
-<span>Telegram Name</span>
-<strong id="telegramName">Guest</strong>
-</div>
+  <div class="profile">
+    <span>Telegram Name</span>
+    <strong id="telegramName">Guest</strong>
+  </div>
 
-<div class="title">💼 Wallet</div>
-
-<div class="card">
-<h3>USDT Wallet</h3>
-<p>Wallet management will be connected to the secure backend.</p>
-</div>
-
-<div class="title">💸 Withdraw</div>
-
-<div class="card">
-<h3>Withdraw Rewards</h3>
-<p>Withdrawal will be enabled after the secure backend is connected.</p>
-</div>
+  <div class="card">
+    <h3>🔐 Account</h3>
+    <p>
+      Your Telegram account is linked with your SKA Rewards EID.
+    </p>
+  </div>
 
 </div>
 
 </div>
 
 
+<!-- BOTTOM NAVIGATION -->
 <div class="bottom">
 
-<button class="nav active" onclick="tab('home',this)">
-<span class="icon">🏠</span>Home
-</button>
+  <button class="nav active" onclick="tab('home',this)">
+    <span class="icon">🏠</span>
+    Home
+  </button>
 
-<button class="nav" onclick="tab('tasks',this)">
-<span class="icon">🎯</span>Tasks
-</button>
+  <button class="nav" onclick="tab('tasks',this)">
+    <span class="icon">🎯</span>
+    Tasks
+  </button>
 
-<button class="nav" onclick="tab('referral',this)">
-<span class="icon">👥</span>Referral
-</button>
+  <button class="nav" onclick="tab('referral',this)">
+    <span class="icon">👥</span>
+    Referral
+  </button>
 
-<button class="nav" onclick="tab('profile',this)">
-<span class="icon">👤</span>Profile
-</button>
+  <button class="nav" onclick="tab('wallet',this)">
+    <span class="icon">💼</span>
+    Wallet
+  </button>
+
+  <button class="nav" onclick="tab('profile',this)">
+    <span class="icon">👤</span>
+    Profile
+  </button>
 
 </div>
 
 
 <script>
 
-const tg=window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
+
 tg.ready();
 tg.expand();
 
-const user=tg.initDataUnsafe?.user;
-const telegramId=user?.id||null;
-const eid=telegramId?"SKA-"+telegramId:"SKA-GUEST";
+const user = tg.initDataUnsafe?.user;
 
-document.getElementById("eid").textContent=eid;
-document.getElementById("profileEid").textContent=eid;
+const telegramId = user?.id || null;
+
+const eid = telegramId
+  ? "SKA-" + telegramId
+  : "SKA-GUEST";
+
+
+/* EID */
+
+document.getElementById("eid").textContent = eid;
+
+document.getElementById("profileEid").textContent = eid;
+
+
+/* TELEGRAM USER */
 
 if(telegramId){
-document.getElementById("telegramId").textContent=telegramId;
+
+  document.getElementById("telegramId").textContent =
+    telegramId;
+
 }
 
 if(user){
-let name=user.first_name||"";
-if(user.last_name) name+=" "+user.last_name;
-document.getElementById("telegramName").textContent=name||"Telegram User";
+
+  let name = user.first_name || "";
+
+  if(user.last_name){
+    name += " " + user.last_name;
+  }
+
+  document.getElementById("telegramName").textContent =
+    name || "Telegram User";
 }
 
-const referralLink="https://t.me/SKA_RewardsBot?start=ref_"+eid;
-document.getElementById("refLink").textContent=referralLink;
 
-let balance=0;
+/* REFERRAL */
 
-function tab(id,btn){
+const referralLink =
+  "https://t.me/SKA_RewardsBot?start=ref_" + eid;
 
-document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+document.getElementById("refLink").textContent =
+  referralLink;
 
-document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
-btn.classList.add("active");
 
-window.scrollTo(0,0);
+/* DEMO BALANCE */
+
+let balance = 0;
+
+
+function updateBalance(){
+
+  document.getElementById("balance").textContent =
+    "$" + balance.toFixed(2);
+
+  document.getElementById("walletBalance").textContent =
+    "$" + balance.toFixed(2);
+
 }
+
 
 function claim(amount){
 
-balance+=amount;
+  balance += amount;
 
-document.getElementById("balance").textContent="$"+balance.toFixed(2);
+  updateBalance();
 
-document.getElementById("message").textContent=
-"Reward added: $"+amount.toFixed(2);
+  document.getElementById("message").textContent =
+    "Reward added: $" + amount.toFixed(2);
+
 }
+
+
+/* TABS */
+
+function tab(id,btn){
+
+  document.querySelectorAll(".section").forEach(function(section){
+    section.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav").forEach(function(nav){
+    nav.classList.remove("active");
+  });
+
+  btn.classList.add("active");
+
+  window.scrollTo(0,0);
+}
+
+
+/* REFERRAL SHARE */
 
 function shareReferral(){
 
-const url="https://t.me/share/url?url="+
-encodeURIComponent(referralLink)+
-"&text="+
-encodeURIComponent("Join SKA Rewards and earn eligible rewards!");
+  const shareUrl =
+    "https://t.me/share/url?url=" +
+    encodeURIComponent(referralLink) +
+    "&text=" +
+    encodeURIComponent(
+      "Join SKA Rewards and earn eligible rewards!"
+    );
 
-tg.openTelegramLink(url);
+  tg.openTelegramLink(shareUrl);
 }
+
+
+/* WALLET */
+
+function saveWallet(){
+
+  const address =
+    document.getElementById("walletAddress").value.trim();
+
+  if(!address){
+
+    tg.showAlert("Please enter your USDT wallet address.");
+
+    return;
+  }
+
+  localStorage.setItem(
+    "ska_wallet_" + eid,
+    address
+  );
+
+  tg.showAlert("Wallet address saved on this device.");
+}
+
+
+function loadWallet(){
+
+  const saved =
+    localStorage.getItem("ska_wallet_" + eid);
+
+  if(saved){
+
+    document.getElementById("walletAddress").value =
+      saved;
+  }
+}
+
+
+function withdraw(){
+
+  tg.showAlert(
+    "Withdrawal will be enabled after the secure backend is connected."
+  );
+
+}
+
+
+loadWallet();
+updateBalance();
 
 </script>
 
