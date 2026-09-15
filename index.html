@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>SKA Rewards</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -18,669 +16,461 @@ content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no
 }
 
 body{
-  background:#07120d;
+  background:#06150f;
   color:#fff;
   min-height:100vh;
-  padding-bottom:78px;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:14px;
+  padding-bottom:82px;
 }
 
 .header{
+  padding:20px 23px 10px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:14px;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:12px;
 }
 
 .logo{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#f5c542,#8d6b15);
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#f1c43b,#b88618);
+  color:#07120d;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
-  font-weight:900;
-  color:#07120d;
+  font-size:34px;
+  font-weight:bold;
+  box-shadow:0 4px 15px rgba(230,185,50,.25);
 }
 
 .brand h1{
-  font-size:18px;
+  font-size:25px;
 }
 
 .brand p{
-  color:#8d9d95;
-  font-size:11px;
-  margin-top:2px;
+  color:#91a29b;
+  margin-top:4px;
+  font-size:15px;
 }
 
-.id-badge{
-  background:#10251b;
-  border:1px solid #234936;
-  color:#d8b84b;
-  padding:7px 9px;
-  border-radius:10px;
-  font-size:11px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.card{
-  background:#0d1d15;
-  border:1px solid #1c3a2a;
-  border-radius:16px;
-  padding:15px;
-  margin-bottom:12px;
-}
-
-.title{
-  font-size:16px;
-  font-weight:700;
-  margin-bottom:5px;
-}
-
-.desc{
-  color:#8fa198;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.hero{
-  padding:20px 16px;
-  background:linear-gradient(145deg,#10271b,#0a1710);
-  border:1px solid #254b35;
-  border-radius:18px;
-  margin-bottom:12px;
-}
-
-.hero h2{
-  font-size:21px;
-  margin-bottom:7px;
-}
-
-.hero p{
-  color:#93a39b;
+.idbox{
+  background:#10291f;
+  border:1px solid #234b3b;
+  color:#e0bc43;
+  padding:13px 12px;
+  border-radius:15px;
   font-size:13px;
-  line-height:1.5;
-}
-
-.gold{
-  color:#e5bd45;
-}
-
-.task{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.task-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex:1;
-}
-
-.task-icon{
-  width:40px;
-  height:40px;
-  border-radius:11px;
-  background:#132a1d;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:19px;
-}
-
-.task-name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.task-desc{
-  font-size:11px;
-  color:#84958c;
-  margin-top:3px;
-}
-
-.action{
-  background:#d9b23f;
-  color:#08110c;
-  padding:9px 13px;
-  border-radius:10px;
-  font-weight:700;
-  font-size:12px;
   white-space:nowrap;
 }
 
-.action:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+.page{
+  padding:10px 23px;
 }
 
-.balance{
-  text-align:center;
-  padding:22px 15px;
+.card{
+  background:#0b2118;
+  border:1px solid #1d4435;
+  border-radius:24px;
+  padding:20px;
+  margin-bottom:18px;
 }
 
-.balance-label{
-  color:#8d9d95;
-  font-size:12px;
+.card h2{
+  font-size:22px;
+  margin-bottom:8px;
 }
 
-.balance-value{
-  font-size:32px;
-  font-weight:800;
-  color:#e5bd45;
-  margin:7px 0;
+.card p{
+  color:#91a29b;
+  font-size:15px;
+  line-height:1.4;
 }
 
-.coin-label{
-  font-size:12px;
-  color:#91a198;
-}
-
-.profile-row{
+.task{
+  background:#0b2118;
+  border:1px solid #1d4435;
+  border-radius:22px;
+  padding:17px 15px;
+  margin-bottom:18px;
   display:flex;
-  justify-content:space-between;
+  align-items:center;
   gap:15px;
-  padding:12px 0;
-  border-bottom:1px solid #1b3527;
 }
 
-.profile-row:last-child{
-  border-bottom:0;
+.taskicon{
+  width:65px;
+  height:65px;
+  border-radius:17px;
+  background:#102d20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:31px;
+  flex-shrink:0;
 }
 
-.profile-label{
-  color:#82948a;
-  font-size:12px;
+.taskinfo{
+  flex:1;
+  min-width:0;
 }
 
-.profile-value{
-  font-size:12px;
-  text-align:right;
-  word-break:break-all;
+.taskinfo h3{
+  font-size:19px;
+  margin-bottom:5px;
 }
 
-.notice{
-  padding:11px;
-  border-radius:10px;
-  background:#102419;
-  color:#91a198;
-  font-size:11px;
-  line-height:1.5;
-  margin-top:10px;
+.taskinfo p{
+  color:#8fa19a;
+  font-size:14px;
+}
+
+.btn{
+  border:0;
+  background:#e3b938;
+  color:#10150e;
+  font-weight:bold;
+  font-size:16px;
+  padding:14px 18px;
+  border-radius:15px;
+  min-width:93px;
+}
+
+.btn:active{
+  transform:scale(.96);
+}
+
+.reward{
+  color:#e8c341;
+  font-weight:bold;
+  margin-top:6px;
+  font-size:14px;
 }
 
 .status{
   text-align:center;
-  font-size:12px;
-  color:#e5bd45;
-  min-height:18px;
-  margin:7px 0;
+  color:#f08a8a;
+  margin:8px 0 15px;
+  min-height:20px;
+  font-size:14px;
+}
+
+.success{
+  color:#62d99b;
+}
+
+.walletBalance{
+  text-align:center;
+  padding:25px 10px;
+}
+
+.walletBalance .amount{
+  font-size:42px;
+  font-weight:bold;
+  color:#e5bd3d;
+  margin:10px 0;
+}
+
+.walletBalance .label{
+  color:#8fa19a;
+}
+
+.infoRow{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid #193a2e;
+}
+
+.infoRow:last-child{
+  border-bottom:0;
+}
+
+.infoRow span:first-child{
+  color:#8fa19a;
+}
+
+.infoRow span:last-child{
+  color:#fff;
+  font-weight:bold;
+}
+
+.hidden{
+  display:none;
 }
 
 .nav{
   position:fixed;
-  left:50%;
   bottom:0;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:520px;
-  height:70px;
-  background:#09150f;
-  border-top:1px solid #1d392a;
+  left:0;
+  right:0;
+  height:78px;
+  background:#071a12;
+  border-top:1px solid #1b3d30;
   display:flex;
-  justify-content:space-around;
-  align-items:center;
   z-index:100;
 }
 
 .nav button{
+  flex:1;
+  border:0;
   background:transparent;
-  color:#6f8178;
-  width:20%;
-  height:60px;
-  font-size:10px;
+  color:#72837c;
+  font-size:12px;
 }
 
-.nav-icon{
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
+.nav button div{
+  font-size:25px;
+  margin-bottom:3px;
 }
 
 .nav button.active{
-  color:#e5bd45;
+  color:#e2bc3d;
 }
 
-.small{
-  font-size:10px;
-  color:#718179;
-}
-
-.success{
-  color:#67d99a;
-}
-
-.error{
-  color:#ff7777;
+.loading{
+  opacity:.6;
+  pointer-events:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
-  <div class="header">
-    <div class="brand">
-      <div class="logo">S</div>
-      <div>
-        <h1>SKA Rewards</h1>
-        <p>Earn rewards • Complete tasks</p>
-      </div>
+<header class="header">
+  <div class="brand">
+    <div class="logo">S</div>
+    <div>
+      <h1>SKA Rewards</h1>
+      <p>Earn rewards • Complete tasks</p>
     </div>
-
-    <div class="id-badge" id="topId">ID: --</div>
   </div>
 
+  <div class="idbox" id="idBox">ID: SKA-...</div>
+</header>
 
-  <!-- HOME -->
-  <section id="home" class="page active">
 
-    <div class="hero">
-      <h2>Welcome to <span class="gold">SKA Rewards</span> 🎁</h2>
-      <p>
-        Complete tasks, collect coins and invite friends.
-        Your rewards are managed securely through SKA Rewards.
-      </p>
+<!-- HOME -->
+<section id="homePage" class="page">
+
+  <div class="card">
+    <h2>🏠 Welcome to SKA Rewards</h2>
+    <p>
+      Complete tasks, collect SKA coins and invite your friends.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🚀 Start Earning</h2>
+    <p>
+      Go to Tasks and complete available activities to earn coins.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>👥 Referral</h2>
+    <p>
+      Invite friends and earn referral rewards after the required tasks are completed.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- TASKS -->
+<section id="tasksPage" class="page hidden">
+
+  <div class="card">
+    <h2>🎯 Tasks</h2>
+    <p>Complete tasks and earn SKA coins.</p>
+  </div>
+
+  <!-- DAILY CHECK-IN -->
+  <div class="task">
+    <div class="taskicon">📅</div>
+
+    <div class="taskinfo">
+      <h3>Daily Check-in</h3>
+      <p id="dailyDescription">Claim today's reward</p>
+      <div class="reward" id="dailyReward">Day 1 • 🪙 10 coins</div>
     </div>
 
-    <div class="card">
-      <div class="title">🚀 Start Earning</div>
-      <div class="desc">
-        Go to Tasks and complete available activities to earn coins.
-      </div>
+    <button class="btn" id="claimBtn" onclick="claimDailyCheckin()">
+      Claim
+    </button>
+  </div>
+
+  <!-- CHANNEL -->
+  <div class="task">
+    <div class="taskicon">📢</div>
+
+    <div class="taskinfo">
+      <h3>Join SKA Rewards Channel</h3>
+      <p>Join our official Telegram channel.</p>
+      <div class="reward">🪙 Reward task</div>
     </div>
 
-    <div class="card">
-      <div class="title">🎯 Daily Rewards</div>
-      <div class="desc">
-        Come back every day and claim your increasing daily reward.
-      </div>
+    <button class="btn" onclick="joinChannel()">Join</button>
+  </div>
+
+  <!-- FOLLOW -->
+  <div class="task">
+    <div class="taskicon">👤</div>
+
+    <div class="taskinfo">
+      <h3>Follow & Earn</h3>
+      <p>Follow our community updates.</p>
+      <div class="reward">🪙 Coming soon</div>
     </div>
 
-  </section>
+    <button class="btn" onclick="comingSoon()">Earn</button>
+  </div>
 
+  <!-- COMMUNITY -->
+  <div class="task">
+    <div class="taskicon">🌐</div>
 
-  <!-- TASKS -->
-  <section id="tasks" class="page">
-
-    <div class="card">
-      <div class="title">🎯 Tasks</div>
-      <div class="desc">
-        Complete tasks and earn SKA coins.
-      </div>
+    <div class="taskinfo">
+      <h3>Community Task</h3>
+      <p>More tasks are coming soon.</p>
+      <div class="reward">🪙 Coming soon</div>
     </div>
 
+    <button class="btn" onclick="comingSoon()">Earn</button>
+  </div>
 
-    <div class="card">
-      <div class="task">
+  <div id="taskStatus" class="status"></div>
 
-        <div class="task-left">
-          <div class="task-icon">📅</div>
+</section>
 
-          <div>
-            <div class="task-name">Daily Check-in</div>
-            <div class="task-desc" id="dailyText">
-              Claim today's reward
-            </div>
-          </div>
-        </div>
 
-        <button
-          class="action"
-          id="claimBtn"
-          onclick="claimDaily()">
-          Claim
-        </button>
+<!-- REFERRAL -->
+<section id="referralPage" class="page hidden">
 
-      </div>
+  <div class="card">
+    <h2>👥 Referral</h2>
+    <p>Invite friends and earn rewards.</p>
+  </div>
+
+  <div class="card">
+    <h2>🎁 Your Referral Link</h2>
+
+    <p id="referralText" style="word-break:break-all;margin:12px 0;">
+      Loading...
+    </p>
+
+    <button class="btn" style="width:100%;" onclick="shareReferral()">
+      Share Referral
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="infoRow">
+      <span>Referrals</span>
+      <span id="refCount">0</span>
     </div>
 
+    <div class="infoRow">
+      <span>Referral Coins</span>
+      <span>🪙 0</span>
+    </div>
+  </div>
 
-    <div class="card">
-      <div class="task">
+</section>
 
-        <div class="task-left">
-          <div class="task-icon">📢</div>
 
-          <div>
-            <div class="task-name">
-              Join SKA Rewards Channel
-            </div>
+<!-- WALLET -->
+<section id="walletPage" class="page hidden">
 
-            <div class="task-desc">
-              Join our official Telegram channel.
-            </div>
-          </div>
-        </div>
+  <div class="card walletBalance">
+    <div class="label">SKA Coin Balance</div>
+    <div class="amount" id="walletCoins">0</div>
+    <div class="label">🪙 SKA Coins</div>
+  </div>
 
-        <button
-          class="action"
-          onclick="joinChannel()">
-          Join
-        </button>
+  <div class="card">
+    <h2>💼 Wallet</h2>
 
-      </div>
+    <div class="infoRow">
+      <span>SKA ID</span>
+      <span id="walletId">-</span>
     </div>
 
-
-    <div class="card">
-      <div class="task">
-
-        <div class="task-left">
-          <div class="task-icon">👤</div>
-
-          <div>
-            <div class="task-name">
-              Follow & Earn
-            </div>
-
-            <div class="task-desc">
-              Follow our community updates.
-            </div>
-          </div>
-        </div>
-
-        <button
-          class="action"
-          onclick="showComingSoon()">
-          Earn
-        </button>
-
-      </div>
+    <div class="infoRow">
+      <span>Coins</span>
+      <span id="walletCoinsSmall">0</span>
     </div>
 
+    <div class="infoRow">
+      <span>USDT</span>
+      <span>Coming soon</span>
+    </div>
+  </div>
 
-    <div class="card">
-      <div class="task">
+</section>
 
-        <div class="task-left">
-          <div class="task-icon">🌐</div>
 
-          <div>
-            <div class="task-name">
-              Community Task
-            </div>
+<!-- PROFILE -->
+<section id="profilePage" class="page hidden">
 
-            <div class="task-desc">
-              More tasks are coming soon.
-            </div>
-          </div>
-        </div>
+  <div class="card">
+    <h2>👤 Profile</h2>
 
-        <button
-          class="action"
-          onclick="showComingSoon()">
-          Earn
-        </button>
-
-      </div>
+    <div class="infoRow">
+      <span>ID</span>
+      <span id="profileId">-</span>
     </div>
 
-    <div id="taskStatus" class="status"></div>
-
-  </section>
-
-
-  <!-- REFERRAL -->
-  <section id="referral" class="page">
-
-    <div class="card">
-      <div class="title">👥 Referral Program</div>
-
-      <div class="desc">
-        Invite friends to SKA Rewards and earn referral rewards
-        when the required conditions are completed.
-      </div>
-
-      <div style="height:12px"></div>
-
-      <button
-        class="action"
-        style="width:100%"
-        onclick="shareReferral()">
-        🔗 Invite Friends
-      </button>
+    <div class="infoRow">
+      <span>Telegram User ID</span>
+      <span id="telegramId">-</span>
     </div>
 
-
-    <div class="card">
-      <div class="profile-row">
-        <div class="profile-label">
-          Your Referrals
-        </div>
-
-        <div class="profile-value" id="refCount">
-          0
-        </div>
-      </div>
-
-      <div class="notice">
-        Referral counting and rewards will be verified by
-        the SKA Rewards backend.
-      </div>
+    <div class="infoRow">
+      <span>Name</span>
+      <span id="telegramName">-</span>
     </div>
 
-  </section>
-
-
-  <!-- WALLET -->
-  <section id="wallet" class="page">
-
-    <div class="card balance">
-
-      <div class="balance-label">
-        Available Balance
-      </div>
-
-      <div class="balance-value" id="walletBalance">
-        0
-      </div>
-
-      <div class="coin-label">
-        SKA Coins
-      </div>
-
+    <div class="infoRow">
+      <span>Username</span>
+      <span id="telegramUsername">-</span>
     </div>
+  </div>
+
+</section>
 
 
-    <div class="card">
-
-      <div class="title">💼 Wallet</div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          Balance
-        </div>
-
-        <div class="profile-value">
-          <span id="walletBalance2">0</span> Coins
-        </div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          Status
-        </div>
-
-        <div class="profile-value success">
-          Active
-        </div>
-      </div>
-
-      <div class="notice">
-        Your coin balance is updated after successful
-        rewards are processed.
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="title">💸 Withdraw</div>
-
-      <div class="desc">
-        Withdrawal system will be available after the
-        wallet and payout system are fully connected.
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE -->
-  <section id="profile" class="page">
-
-    <div class="card">
-
-      <div class="title">👤 Profile</div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          ID
-        </div>
-
-        <div class="profile-value" id="profileId">
-          --
-        </div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          Telegram User ID
-        </div>
-
-        <div class="profile-value" id="telegramId">
-          --
-        </div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          Telegram Name
-        </div>
-
-        <div class="profile-value" id="telegramName">
-          --
-        </div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-label">
-          Username
-        </div>
-
-        <div class="profile-value" id="telegramUsername">
-          --
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="title">🔐 Account</div>
-
-      <div class="desc">
-        Your Telegram identity is verified by the SKA Rewards
-        secure backend when rewards are claimed.
-      </div>
-
-    </div>
-
-  </section>
-
-</div>
-
-
-<!-- NAVIGATION -->
+<!-- BOTTOM NAV -->
 <nav class="nav">
 
-  <button
-    class="active"
-    onclick="showPage('home',this)">
-
-    <span class="nav-icon">🏠</span>
+  <button id="navHome" class="active" onclick="showPage('home')">
+    <div>🏠</div>
     Home
-
   </button>
 
-
-  <button
-    onclick="showPage('tasks',this)">
-
-    <span class="nav-icon">🎯</span>
+  <button id="navTasks" onclick="showPage('tasks')">
+    <div>🎯</div>
     Tasks
-
   </button>
 
-
-  <button
-    onclick="showPage('referral',this)">
-
-    <span class="nav-icon">👥</span>
+  <button id="navReferral" onclick="showPage('referral')">
+    <div>👥</div>
     Referral
-
   </button>
 
-
-  <button
-    onclick="showPage('wallet',this)">
-
-    <span class="nav-icon">💼</span>
+  <button id="navWallet" onclick="showPage('wallet')">
+    <div>💼</div>
     Wallet
-
   </button>
 
-
-  <button
-    onclick="showPage('profile',this)">
-
-    <span class="nav-icon">👤</span>
+  <button id="navProfile" onclick="showPage('profile')">
+    <div>👤</div>
     Profile
-
   </button>
 
 </nav>
@@ -688,168 +478,173 @@ button{
 
 <script>
 
-/* ================================
+/* ==============================
    TELEGRAM
-================================ */
+============================== */
 
-const tg = window.Telegram?.WebApp;
+const tg = window.Telegram.WebApp;
 
-if(tg){
-  tg.ready();
-  tg.expand();
+tg.ready();
+tg.expand();
+
+
+/* ==============================
+   SUPABASE
+============================== */
+
+const SUPABASE_URL =
+"https://cojehnpylendxtfgebeh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_TJXs17acGlIntDKp-dh0Rw_KPuiZyzG";
+
+
+const DAILY_CHECKIN_URL =
+SUPABASE_URL + "/functions/v1/daily-checkin";
+
+
+/* ==============================
+   USER DATA
+============================== */
+
+let telegramUser = tg.initDataUnsafe?.user || null;
+
+let coins = Number(localStorage.getItem("ska_coins") || "0");
+
+
+/* ==============================
+   DAILY REWARD PREVIEW
+============================== */
+
+const rewards = [
+  10,
+  15,
+  20,
+  30,
+  40,
+  55,
+  75
+];
+
+
+function getPreviewDay(){
+
+  const savedDate =
+    localStorage.getItem("ska_last_checkin_date");
+
+  const savedDay =
+    Number(localStorage.getItem("ska_checkin_day") || "0");
+
+  if(!savedDate){
+    return 1;
+  }
+
+  const today = new Date().toISOString().slice(0,10);
+
+  if(savedDate === today){
+    return savedDay || 1;
+  }
+
+  return savedDay >= 7 ? 1 : savedDay + 1;
 }
 
 
-/* ================================
-   SUPABASE EDGE FUNCTION
-================================ */
+function updateRewardPreview(){
 
-const DAILY_CHECKIN_URL =
-"https://cojehnpylendxtfgebeh.supabase.co/functions/v1/daily-checkin";
+  const day = getPreviewDay();
+
+  const reward = rewards[day - 1];
+
+  document.getElementById("dailyReward").textContent =
+    "Day " + day + " • 🪙 " + reward + " coins";
+}
 
 
-/* ================================
-   USER
-================================ */
+updateRewardPreview();
 
-let telegramUser = null;
-let coins = 0;
 
+/* ==============================
+   LOAD TELEGRAM USER
+============================== */
 
 function loadTelegramUser(){
 
-  if(!tg || !tg.initDataUnsafe){
-
-    setProfile(
-      "Demo",
-      "--",
-      "--",
-      "--"
-    );
-
-    return;
-  }
-
-  telegramUser =
-    tg.initDataUnsafe.user || null;
-
   if(!telegramUser){
 
-    setProfile(
-      "Guest",
-      "--",
-      "--",
-      "--"
-    );
+    document.getElementById("idBox").textContent =
+      "Telegram only";
+
+    document.getElementById("taskStatus").textContent =
+      "⚠️ Please open SKA Rewards inside Telegram.";
 
     return;
   }
 
-  const id =
-    String(telegramUser.id);
+  const id = telegramUser.id;
 
-  const eid =
-    "SKA-" + id;
+  const eid = "SKA-" + id;
 
   const name =
     telegramUser.first_name ||
     "User";
 
   const username =
-    telegramUser.username
-      ? "@" + telegramUser.username
-      : "--";
+    telegramUser.username ?
+    "@" + telegramUser.username :
+    "Not set";
 
-  document.getElementById("topId")
-    .textContent =
+
+  document.getElementById("idBox").textContent =
     "ID: " + eid;
 
-  document.getElementById("profileId")
-    .textContent =
+  document.getElementById("profileId").textContent =
     eid;
 
-  document.getElementById("telegramId")
-    .textContent =
+  document.getElementById("walletId").textContent =
+    eid;
+
+  document.getElementById("telegramId").textContent =
     id;
 
-  document.getElementById("telegramName")
-    .textContent =
+  document.getElementById("telegramName").textContent =
     name;
 
-  document.getElementById("telegramUsername")
-    .textContent =
+  document.getElementById("telegramUsername").textContent =
     username;
+
+
+  updateWallet();
+  makeReferralLink();
 }
 
 
-function setProfile(
-  id,
-  telegramId,
-  name,
-  username
-){
+loadTelegramUser();
 
-  document.getElementById("topId")
-    .textContent =
-    "ID: " + id;
 
-  document.getElementById("profileId")
-    .textContent =
-    id;
+/* ==============================
+   WALLET
+============================== */
 
-  document.getElementById("telegramId")
-    .textContent =
-    telegramId;
+function updateWallet(){
 
-  document.getElementById("telegramName")
-    .textContent =
-    name;
+  document.getElementById("walletCoins").textContent =
+    coins.toFixed(2);
 
-  document.getElementById("telegramUsername")
-    .textContent =
-    username;
+  document.getElementById("walletCoinsSmall").textContent =
+    coins.toFixed(2);
+
+  localStorage.setItem(
+    "ska_coins",
+    coins
+  );
 }
 
 
-/* ================================
-   NAVIGATION
-================================ */
-
-function showPage(
-  page,
-  button
-){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      p => p.classList.remove("active")
-    );
-
-  document
-    .getElementById(page)
-    .classList.add("active");
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* ================================
+/* ==============================
    DAILY CHECK-IN
-================================ */
+============================== */
 
-async function claimDaily(){
+async function claimDailyCheckin(){
 
   const btn =
     document.getElementById("claimBtn");
@@ -857,213 +652,223 @@ async function claimDaily(){
   const status =
     document.getElementById("taskStatus");
 
-  const dailyText =
-    document.getElementById("dailyText");
 
+  if(!tg.initData){
 
-  if(!tg || !tg.initData){
-
-    status.className =
-      "status error";
+    status.className = "status";
 
     status.textContent =
-      "Please open SKA Rewards inside Telegram.";
+      "❌ Telegram data not available. Open the Mini App from Telegram.";
 
     return;
   }
 
 
   btn.disabled = true;
+  btn.textContent = "Claiming...";
 
-  btn.textContent =
-    "Claiming...";
-
-  status.className =
-    "status";
-
-  status.textContent =
-    "Verifying Telegram account...";
+  status.className = "status";
+  status.textContent = "Checking Telegram data...";
 
 
   try{
 
-    const result =
-      await fetch(
-        DAILY_CHECKIN_URL,
-        {
-          method:"POST",
+    const response =
+      await fetch(DAILY_CHECKIN_URL, {
 
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
+        method:"POST",
 
-          body:JSON.stringify({
-            initData:
-              tg.initData
-          })
-        }
-      );
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          initData:tg.initData
+        })
+
+      });
 
 
     const data =
-      await result.json();
+      await response.json();
 
 
-    if(!result.ok || !data.ok){
+    if(!response.ok || data.ok === false){
 
       throw new Error(
         data.error ||
-        "Unable to claim reward"
+        data.message ||
+        "Unable to claim"
       );
 
     }
 
 
-    coins =
-      Number(data.coins || 0);
+    /*
+      Backend response:
+      reward
+      dayNumber
+      coins
+      claimed
+    */
 
+    if(typeof data.coins === "number"){
 
-    updateWallet();
+      coins = data.coins;
+
+      updateWallet();
+
+    }
 
 
     if(data.claimed){
 
-      if(
-        data.message ===
-        "Already claimed today"
-      ){
+      btn.textContent = "Claimed";
 
-        btn.textContent =
-          "Claimed";
+      status.className =
+        "status success";
 
-        dailyText.textContent =
-          "Already claimed today";
+      status.textContent =
+        "✅ Today's reward is already claimed.";
 
-        status.className =
-          "status";
+      if(data.reward){
 
-        status.textContent =
-          "✅ Today's reward is already claimed.";
-
-      }else{
-
-        btn.textContent =
-          "Claimed";
-
-        dailyText.textContent =
+        document.getElementById("dailyReward").textContent =
           "Day " +
-          data.dayNumber +
-          " • +" +
+          (data.dayNumber || getPreviewDay()) +
+          " • 🪙 " +
           data.reward +
           " coins";
 
-        status.className =
-          "status success";
-
-        status.textContent =
-          "🎉 +" +
-          data.reward +
-          " coins added!";
       }
 
+      return;
     }
+
+
+    const reward =
+      Number(data.reward || 0);
+
+    const dayNumber =
+      Number(data.dayNumber || getPreviewDay());
+
+
+    btn.textContent = "Claimed";
+
+    status.className =
+      "status success";
+
+    status.textContent =
+      "🎉 +" + reward +
+      " coins added successfully!";
+
+
+    document.getElementById("dailyDescription").textContent =
+      "Today's reward claimed";
+
+    document.getElementById("dailyReward").textContent =
+      "Day " + dayNumber +
+      " • 🪙 " + reward + " coins";
+
+
+    localStorage.setItem(
+      "ska_last_checkin_date",
+      new Date().toISOString().slice(0,10)
+    );
+
+    localStorage.setItem(
+      "ska_checkin_day",
+      dayNumber
+    );
 
 
   }catch(error){
 
     console.error(error);
 
-    btn.disabled = false;
-
-    btn.textContent =
-      "Claim";
-
-    status.className =
-      "status error";
+    status.className = "status";
 
     status.textContent =
-      error.message ||
-      "Something went wrong.";
+      "❌ " + error.message;
+
+    btn.disabled = false;
+    btn.textContent = "Claim";
 
   }
 
 }
 
 
-/* ================================
-   WALLET
-================================ */
-
-function updateWallet(){
-
-  document.getElementById(
-    "walletBalance"
-  ).textContent =
-    coins.toString();
-
-  document.getElementById(
-    "walletBalance2"
-  ).textContent =
-    coins.toString();
-}
-
-
-/* ================================
+/* ==============================
    CHANNEL
-================================ */
+============================== */
 
 function joinChannel(){
 
   const url =
     "https://t.me/SKRewardssi123USDT";
 
-  if(tg){
+  if(tg.openTelegramLink){
 
     tg.openTelegramLink(url);
 
   }else{
 
-    window.open(
-      url,
-      "_blank"
-    );
+    window.open(url,"_blank");
 
   }
 
 }
 
 
-/* ================================
+/* ==============================
+   OTHER TASKS
+============================== */
+
+function comingSoon(){
+
+  document.getElementById("taskStatus").textContent =
+    "🚀 This task will be available soon.";
+
+}
+
+
+/* ==============================
    REFERRAL
-================================ */
+============================== */
+
+function makeReferralLink(){
+
+  if(!telegramUser){
+    return;
+  }
+
+  const id =
+    telegramUser.id;
+
+  const link =
+    "https://t.me/SKA_RewardsBot?start=ref_" + id;
+
+  document.getElementById("referralText").textContent =
+    link;
+
+}
+
 
 function shareReferral(){
 
-  let id = "";
-
-  if(telegramUser){
-
-    id =
-      telegramUser.id;
-
+  if(!telegramUser){
+    return;
   }
 
-
-  const bot =
-    "SKA_RewardsBot";
-
+  const id =
+    telegramUser.id;
 
   const link =
-    "https://t.me/" +
-    bot +
-    "?start=ref_" +
-    id;
-
+    "https://t.me/SKA_RewardsBot?start=ref_" + id;
 
   const text =
     "🎁 Join SKA Rewards and earn rewards!";
-
 
   const shareUrl =
     "https://t.me/share/url?url=" +
@@ -1072,51 +877,110 @@ function shareReferral(){
     encodeURIComponent(text);
 
 
-  if(tg){
+  if(tg.openTelegramLink){
 
-    tg.openTelegramLink(
-      shareUrl
-    );
+    tg.openTelegramLink(shareUrl);
 
   }else{
 
-    window.open(
-      shareUrl,
-      "_blank"
-    );
+    window.open(shareUrl,"_blank");
 
   }
 
 }
 
 
-/* ================================
-   OTHER TASKS
-================================ */
+/* ==============================
+   NAVIGATION
+============================== */
 
-function showComingSoon(){
+function showPage(page){
 
-  const status =
-    document.getElementById(
-      "taskStatus"
-    );
+  const pages = [
+    "homePage",
+    "tasksPage",
+    "referralPage",
+    "walletPage",
+    "profilePage"
+  ];
 
-  status.className =
-    "status";
+  pages.forEach(function(id){
+    document.getElementById(id)
+      .classList.add("hidden");
+  });
 
-  status.textContent =
-    "🚀 This task will be available soon.";
+
+  const navs = [
+    "navHome",
+    "navTasks",
+    "navReferral",
+    "navWallet",
+    "navProfile"
+  ];
+
+  navs.forEach(function(id){
+    document.getElementById(id)
+      .classList.remove("active");
+  });
+
+
+  if(page === "home"){
+
+    document.getElementById("homePage")
+      .classList.remove("hidden");
+
+    document.getElementById("navHome")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "tasks"){
+
+    document.getElementById("tasksPage")
+      .classList.remove("hidden");
+
+    document.getElementById("navTasks")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "referral"){
+
+    document.getElementById("referralPage")
+      .classList.remove("hidden");
+
+    document.getElementById("navReferral")
+      .classList.add("active");
+
+  }
+
+
+  if(page === "wallet"){
+
+    document.getElementById("walletPage")
+      .classList.remove("hidden");
+
+    document.getElementById("navWallet")
+      .classList.add("active");
+
+    updateWallet();
+
+  }
+
+
+  if(page === "profile"){
+
+    document.getElementById("profilePage")
+      .classList.remove("hidden");
+
+    document.getElementById("navProfile")
+      .classList.add("active");
+
+  }
 
 }
-
-
-/* ================================
-   START
-================================ */
-
-loadTelegramUser();
-
-updateWallet();
 
 </script>
 
