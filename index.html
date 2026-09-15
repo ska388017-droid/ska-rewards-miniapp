@@ -1,988 +1,732 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>SKA Rewards</title>
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN")!;
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
+const secretKeysText = Deno.env.get("SUPABASE_SECRET_KEYS") || "{}";
+const secretKeys = JSON.parse(secretKeysText);
+const SUPABASE_SECRET_KEY = secretKeys["default"];
+
+if (!SUPABASE_SECRET_KEY) {
+  throw new Error("Supabase secret key not available");
 }
 
-body{
-  background:#06150f;
-  color:#fff;
-  min-height:100vh;
-  padding-bottom:82px;
-}
-
-.header{
-  padding:20px 23px 10px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.logo{
-  width:64px;
-  height:64px;
-  border-radius:18px;
-  background:linear-gradient(145deg,#f1c43b,#b88618);
-  color:#07120d;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:34px;
-  font-weight:bold;
-  box-shadow:0 4px 15px rgba(230,185,50,.25);
-}
-
-.brand h1{
-  font-size:25px;
-}
-
-.brand p{
-  color:#91a29b;
-  margin-top:4px;
-  font-size:15px;
-}
-
-.idbox{
-  background:#10291f;
-  border:1px solid #234b3b;
-  color:#e0bc43;
-  padding:13px 12px;
-  border-radius:15px;
-  font-size:13px;
-  white-space:nowrap;
-}
-
-.page{
-  padding:10px 23px;
-}
-
-.card{
-  background:#0b2118;
-  border:1px solid #1d4435;
-  border-radius:24px;
-  padding:20px;
-  margin-bottom:18px;
-}
-
-.card h2{
-  font-size:22px;
-  margin-bottom:8px;
-}
-
-.card p{
-  color:#91a29b;
-  font-size:15px;
-  line-height:1.4;
-}
-
-.task{
-  background:#0b2118;
-  border:1px solid #1d4435;
-  border-radius:22px;
-  padding:17px 15px;
-  margin-bottom:18px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.taskicon{
-  width:65px;
-  height:65px;
-  border-radius:17px;
-  background:#102d20;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:31px;
-  flex-shrink:0;
-}
-
-.taskinfo{
-  flex:1;
-  min-width:0;
-}
-
-.taskinfo h3{
-  font-size:19px;
-  margin-bottom:5px;
-}
-
-.taskinfo p{
-  color:#8fa19a;
-  font-size:14px;
-}
-
-.btn{
-  border:0;
-  background:#e3b938;
-  color:#10150e;
-  font-weight:bold;
-  font-size:16px;
-  padding:14px 18px;
-  border-radius:15px;
-  min-width:93px;
-}
-
-.btn:active{
-  transform:scale(.96);
-}
-
-.reward{
-  color:#e8c341;
-  font-weight:bold;
-  margin-top:6px;
-  font-size:14px;
-}
-
-.status{
-  text-align:center;
-  color:#f08a8a;
-  margin:8px 0 15px;
-  min-height:20px;
-  font-size:14px;
-}
-
-.success{
-  color:#62d99b;
-}
-
-.walletBalance{
-  text-align:center;
-  padding:25px 10px;
-}
-
-.walletBalance .amount{
-  font-size:42px;
-  font-weight:bold;
-  color:#e5bd3d;
-  margin:10px 0;
-}
-
-.walletBalance .label{
-  color:#8fa19a;
-}
-
-.infoRow{
-  display:flex;
-  justify-content:space-between;
-  padding:15px 0;
-  border-bottom:1px solid #193a2e;
-}
-
-.infoRow:last-child{
-  border-bottom:0;
-}
-
-.infoRow span:first-child{
-  color:#8fa19a;
-}
-
-.infoRow span:last-child{
-  color:#fff;
-  font-weight:bold;
-}
-
-.hidden{
-  display:none;
-}
-
-.nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:78px;
-  background:#071a12;
-  border-top:1px solid #1b3d30;
-  display:flex;
-  z-index:100;
-}
-
-.nav button{
-  flex:1;
-  border:0;
-  background:transparent;
-  color:#72837c;
-  font-size:12px;
-}
-
-.nav button div{
-  font-size:25px;
-  margin-bottom:3px;
-}
-
-.nav button.active{
-  color:#e2bc3d;
-}
-
-.loading{
-  opacity:.6;
-  pointer-events:none;
-}
-</style>
-</head>
-
-<body>
-
-<header class="header">
-  <div class="brand">
-    <div class="logo">S</div>
-    <div>
-      <h1>SKA Rewards</h1>
-      <p>Earn rewards • Complete tasks</p>
-    </div>
-  </div>
-
-  <div class="idbox" id="idBox">ID: SKA-...</div>
-</header>
-
-
-<!-- HOME -->
-<section id="homePage" class="page">
-
-  <div class="card">
-    <h2>🏠 Welcome to SKA Rewards</h2>
-    <p>
-      Complete tasks, collect SKA coins and invite your friends.
-    </p>
-  </div>
-
-  <div class="card">
-    <h2>🚀 Start Earning</h2>
-    <p>
-      Go to Tasks and complete available activities to earn coins.
-    </p>
-  </div>
-
-  <div class="card">
-    <h2>👥 Referral</h2>
-    <p>
-      Invite friends and earn referral rewards after the required tasks are completed.
-    </p>
-  </div>
-
-</section>
-
-
-<!-- TASKS -->
-<section id="tasksPage" class="page hidden">
-
-  <div class="card">
-    <h2>🎯 Tasks</h2>
-    <p>Complete tasks and earn SKA coins.</p>
-  </div>
-
-  <!-- DAILY CHECK-IN -->
-  <div class="task">
-    <div class="taskicon">📅</div>
-
-    <div class="taskinfo">
-      <h3>Daily Check-in</h3>
-      <p id="dailyDescription">Claim today's reward</p>
-      <div class="reward" id="dailyReward">Day 1 • 🪙 10 coins</div>
-    </div>
-
-    <button class="btn" id="claimBtn" onclick="claimDailyCheckin()">
-      Claim
-    </button>
-  </div>
-
-  <!-- CHANNEL -->
-  <div class="task">
-    <div class="taskicon">📢</div>
-
-    <div class="taskinfo">
-      <h3>Join SKA Rewards Channel</h3>
-      <p>Join our official Telegram channel.</p>
-      <div class="reward">🪙 Reward task</div>
-    </div>
-
-    <button class="btn" onclick="joinChannel()">Join</button>
-  </div>
-
-  <!-- FOLLOW -->
-  <div class="task">
-    <div class="taskicon">👤</div>
-
-    <div class="taskinfo">
-      <h3>Follow & Earn</h3>
-      <p>Follow our community updates.</p>
-      <div class="reward">🪙 Coming soon</div>
-    </div>
-
-    <button class="btn" onclick="comingSoon()">Earn</button>
-  </div>
-
-  <!-- COMMUNITY -->
-  <div class="task">
-    <div class="taskicon">🌐</div>
-
-    <div class="taskinfo">
-      <h3>Community Task</h3>
-      <p>More tasks are coming soon.</p>
-      <div class="reward">🪙 Coming soon</div>
-    </div>
-
-    <button class="btn" onclick="comingSoon()">Earn</button>
-  </div>
-
-  <div id="taskStatus" class="status"></div>
-
-</section>
-
-
-<!-- REFERRAL -->
-<section id="referralPage" class="page hidden">
-
-  <div class="card">
-    <h2>👥 Referral</h2>
-    <p>Invite friends and earn rewards.</p>
-  </div>
-
-  <div class="card">
-    <h2>🎁 Your Referral Link</h2>
-
-    <p id="referralText" style="word-break:break-all;margin:12px 0;">
-      Loading...
-    </p>
-
-    <button class="btn" style="width:100%;" onclick="shareReferral()">
-      Share Referral
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="infoRow">
-      <span>Referrals</span>
-      <span id="refCount">0</span>
-    </div>
-
-    <div class="infoRow">
-      <span>Referral Coins</span>
-      <span>🪙 0</span>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- WALLET -->
-<section id="walletPage" class="page hidden">
-
-  <div class="card walletBalance">
-    <div class="label">SKA Coin Balance</div>
-    <div class="amount" id="walletCoins">0</div>
-    <div class="label">🪙 SKA Coins</div>
-  </div>
-
-  <div class="card">
-    <h2>💼 Wallet</h2>
-
-    <div class="infoRow">
-      <span>SKA ID</span>
-      <span id="walletId">-</span>
-    </div>
-
-    <div class="infoRow">
-      <span>Coins</span>
-      <span id="walletCoinsSmall">0</span>
-    </div>
-
-    <div class="infoRow">
-      <span>USDT</span>
-      <span>Coming soon</span>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- PROFILE -->
-<section id="profilePage" class="page hidden">
-
-  <div class="card">
-    <h2>👤 Profile</h2>
-
-    <div class="infoRow">
-      <span>ID</span>
-      <span id="profileId">-</span>
-    </div>
-
-    <div class="infoRow">
-      <span>Telegram User ID</span>
-      <span id="telegramId">-</span>
-    </div>
-
-    <div class="infoRow">
-      <span>Name</span>
-      <span id="telegramName">-</span>
-    </div>
-
-    <div class="infoRow">
-      <span>Username</span>
-      <span id="telegramUsername">-</span>
-    </div>
-  </div>
-
-</section>
-
-
-<!-- BOTTOM NAV -->
-<nav class="nav">
-
-  <button id="navHome" class="active" onclick="showPage('home')">
-    <div>🏠</div>
-    Home
-  </button>
-
-  <button id="navTasks" onclick="showPage('tasks')">
-    <div>🎯</div>
-    Tasks
-  </button>
-
-  <button id="navReferral" onclick="showPage('referral')">
-    <div>👥</div>
-    Referral
-  </button>
-
-  <button id="navWallet" onclick="showPage('wallet')">
-    <div>💼</div>
-    Wallet
-  </button>
-
-  <button id="navProfile" onclick="showPage('profile')">
-    <div>👤</div>
-    Profile
-  </button>
-
-</nav>
-
-
-<script>
-
-/* ==============================
-   TELEGRAM
-============================== */
-
-const tg = window.Telegram.WebApp;
-
-tg.ready();
-tg.expand();
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_SECRET_KEY
+);
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+};
 
 
 /* ==============================
-   SUPABASE
+   HMAC-SHA256
 ============================== */
 
-const SUPABASE_URL =
-"https://cojehnpylendxtfgebeh.supabase.co";
+async function hmacSha256(
+  keyData: Uint8Array,
+  message: string
+): Promise<ArrayBuffer> {
 
-const SUPABASE_KEY =
-"sb_publishable_TJXs17acGlIntDKp-dh0Rw_KPuiZyzG";
+  const key = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    {
+      name: "HMAC",
+      hash: "SHA-256"
+    },
+    false,
+    ["sign"]
+  );
 
-
-const DAILY_CHECKIN_URL =
-SUPABASE_URL + "/functions/v1/daily-checkin";
-
-
-/* ==============================
-   USER DATA
-============================== */
-
-let telegramUser = tg.initDataUnsafe?.user || null;
-
-let coins = Number(localStorage.getItem("ska_coins") || "0");
-
-
-/* ==============================
-   DAILY REWARD PREVIEW
-============================== */
-
-const rewards = [
-  10,
-  15,
-  20,
-  30,
-  40,
-  55,
-  75
-];
-
-
-function getPreviewDay(){
-
-  const savedDate =
-    localStorage.getItem("ska_last_checkin_date");
-
-  const savedDay =
-    Number(localStorage.getItem("ska_checkin_day") || "0");
-
-  if(!savedDate){
-    return 1;
-  }
-
-  const today = new Date().toISOString().slice(0,10);
-
-  if(savedDate === today){
-    return savedDay || 1;
-  }
-
-  return savedDay >= 7 ? 1 : savedDay + 1;
-}
-
-
-function updateRewardPreview(){
-
-  const day = getPreviewDay();
-
-  const reward = rewards[day - 1];
-
-  document.getElementById("dailyReward").textContent =
-    "Day " + day + " • 🪙 " + reward + " coins";
-}
-
-
-updateRewardPreview();
-
-
-/* ==============================
-   LOAD TELEGRAM USER
-============================== */
-
-function loadTelegramUser(){
-
-  if(!telegramUser){
-
-    document.getElementById("idBox").textContent =
-      "Telegram only";
-
-    document.getElementById("taskStatus").textContent =
-      "⚠️ Please open SKA Rewards inside Telegram.";
-
-    return;
-  }
-
-  const id = telegramUser.id;
-
-  const eid = "SKA-" + id;
-
-  const name =
-    telegramUser.first_name ||
-    "User";
-
-  const username =
-    telegramUser.username ?
-    "@" + telegramUser.username :
-    "Not set";
-
-
-  document.getElementById("idBox").textContent =
-    "ID: " + eid;
-
-  document.getElementById("profileId").textContent =
-    eid;
-
-  document.getElementById("walletId").textContent =
-    eid;
-
-  document.getElementById("telegramId").textContent =
-    id;
-
-  document.getElementById("telegramName").textContent =
-    name;
-
-  document.getElementById("telegramUsername").textContent =
-    username;
-
-
-  updateWallet();
-  makeReferralLink();
-}
-
-
-loadTelegramUser();
-
-
-/* ==============================
-   WALLET
-============================== */
-
-function updateWallet(){
-
-  document.getElementById("walletCoins").textContent =
-    coins.toFixed(2);
-
-  document.getElementById("walletCoinsSmall").textContent =
-    coins.toFixed(2);
-
-  localStorage.setItem(
-    "ska_coins",
-    coins
+  return await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(message)
   );
 }
 
 
 /* ==============================
-   DAILY CHECK-IN
+   HEX
 ============================== */
 
-async function claimDailyCheckin(){
+function bufferToHex(buffer: ArrayBuffer): string {
 
-  const btn =
-    document.getElementById("claimBtn");
+  return Array.from(
+    new Uint8Array(buffer)
+  )
+    .map(
+      (b) => b.toString(16).padStart(2, "0")
+    )
+    .join("");
+}
 
-  const status =
-    document.getElementById("taskStatus");
+
+/* ==============================
+   TELEGRAM INIT DATA
+============================== */
+
+async function verifyTelegram(
+  initData: string
+) {
+
+  if (!initData) {
+    throw new Error("Telegram initData missing");
+  }
+
+  const params = new URLSearchParams(initData);
+
+  const receivedHash =
+    params.get("hash");
+
+  if (!receivedHash) {
+    throw new Error("Telegram hash missing");
+  }
+
+  params.delete("hash");
+
+  const dataCheckString =
+    Array.from(params.entries())
+      .sort((a, b) =>
+        a[0].localeCompare(b[0])
+      )
+      .map(
+        ([key, value]) =>
+          `${key}=${value}`
+      )
+      .join("\n");
 
 
-  if(!tg.initData){
+  /* Telegram secret key */
 
-    status.className = "status";
+  const secretKeyBuffer =
+    await hmacSha256(
+      new TextEncoder().encode(
+        TELEGRAM_BOT_TOKEN
+      ),
+      "WebAppData"
+    );
 
-    status.textContent =
-      "❌ Telegram data not available. Open the Mini App from Telegram.";
 
-    return;
+  /* Calculate Telegram hash */
+
+  const calculatedHashBuffer =
+    await hmacSha256(
+      new Uint8Array(
+        secretKeyBuffer
+      ),
+      dataCheckString
+    );
+
+  const calculatedHash =
+    bufferToHex(
+      calculatedHashBuffer
+    );
+
+
+  if (
+    calculatedHash.toLowerCase() !==
+    receivedHash.toLowerCase()
+  ) {
+
+    throw new Error(
+      "Invalid Telegram data"
+    );
   }
 
 
-  btn.disabled = true;
-  btn.textContent = "Claiming...";
+  /* Check auth date */
 
-  status.className = "status";
-  status.textContent = "Checking Telegram data...";
+  const authDate =
+    Number(
+      params.get("auth_date") || "0"
+    );
+
+  if (!authDate) {
+    throw new Error(
+      "Telegram auth_date missing"
+    );
+  }
 
 
-  try{
+  const age =
+    Math.floor(Date.now() / 1000) -
+    authDate;
 
-    const response =
-      await fetch(DAILY_CHECKIN_URL, {
 
-        method:"POST",
+  /* Allow Telegram data for 24 hours */
 
-        headers:{
-          "Content-Type":"application/json"
+  if (
+    age < -60 ||
+    age > 86400
+  ) {
+
+    throw new Error(
+      "Telegram data expired"
+    );
+  }
+
+
+  const userText =
+    params.get("user");
+
+  if (!userText) {
+    throw new Error(
+      "Telegram user missing"
+    );
+  }
+
+
+  let user;
+
+  try {
+
+    user = JSON.parse(userText);
+
+  } catch {
+
+    throw new Error(
+      "Telegram user data invalid"
+    );
+
+  }
+
+
+  if (!user.id) {
+    throw new Error(
+      "Telegram user ID missing"
+    );
+  }
+
+
+  return user;
+}
+
+
+/* ==============================
+   INDIA DATE
+============================== */
+
+function indiaDate(): string {
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }
+    ).formatToParts(new Date());
+
+
+  const year =
+    parts.find(
+      (x) => x.type === "year"
+    )?.value;
+
+  const month =
+    parts.find(
+      (x) => x.type === "month"
+    )?.value;
+
+  const day =
+    parts.find(
+      (x) => x.type === "day"
+    )?.value;
+
+
+  return `${year}-${month}-${day}`;
+}
+
+
+/* ==============================
+   YESTERDAY
+============================== */
+
+function previousDate(
+  dateString: string
+): string {
+
+  const d =
+    new Date(
+      `${dateString}T00:00:00+05:30`
+    );
+
+  d.setUTCDate(
+    d.getUTCDate() - 1
+  );
+
+  return new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  ).format(d);
+}
+
+
+/* ==============================
+   JSON RESPONSE
+============================== */
+
+function json(
+  data: unknown,
+  status = 200
+) {
+
+  return new Response(
+    JSON.stringify(data),
+    {
+      status,
+      headers: {
+        ...corsHeaders,
+        "Content-Type":
+          "application/json"
+      }
+    }
+  );
+}
+
+
+/* ==============================
+   MAIN
+============================== */
+
+Deno.serve(async (req) => {
+
+  if (req.method === "OPTIONS") {
+
+    return new Response(
+      "ok",
+      {
+        headers: corsHeaders
+      }
+    );
+
+  }
+
+
+  if (req.method !== "POST") {
+
+    return json(
+      {
+        ok: false,
+        error:
+          "POST request required"
+      },
+      405
+    );
+
+  }
+
+
+  try {
+
+    const body =
+      await req.json();
+
+    const initData =
+      body?.initData;
+
+
+    if (
+      typeof initData !== "string" ||
+      !initData
+    ) {
+
+      return json(
+        {
+          ok: false,
+          error:
+            "initData is required"
         },
-
-        body:JSON.stringify({
-          initData:tg.initData
-        })
-
-      });
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok || data.ok === false){
-
-      throw new Error(
-        data.error ||
-        data.message ||
-        "Unable to claim"
+        400
       );
 
     }
 
 
-    /*
-      Backend response:
-      reward
-      dayNumber
-      coins
-      claimed
-    */
+    /* Verify Telegram */
 
-    if(typeof data.coins === "number"){
+    const telegramUser =
+      await verifyTelegram(
+        initData
+      );
 
-      coins = data.coins;
 
-      updateWallet();
+    const telegramId =
+      Number(
+        telegramUser.id
+      );
+
+    const eid =
+      `SKA-${telegramId}`;
+
+
+    const firstName =
+      telegramUser.first_name ||
+      "User";
+
+    const username =
+      telegramUser.username ||
+      null;
+
+
+    /* ==========================
+       CREATE / UPDATE USER
+    ========================== */
+
+    const { data: existingUser, error: userError } =
+      await supabase
+        .from("users")
+        .select("id, coins")
+        .eq("id", telegramId)
+        .maybeSingle();
+
+
+    if (userError) {
+      throw userError;
+    }
+
+
+    if (!existingUser) {
+
+      const { error } =
+        await supabase
+          .from("users")
+          .insert({
+            id: telegramId,
+            eid: eid,
+            coins: 0,
+            first_name: firstName,
+            username: username
+          });
+
+      if (error) {
+        throw error;
+      }
+
+    } else {
+
+      const { error } =
+        await supabase
+          .from("users")
+          .update({
+            eid: eid,
+            first_name: firstName,
+            username: username
+          })
+          .eq(
+            "id",
+            telegramId
+          );
+
+      if (error) {
+        throw error;
+      }
 
     }
 
 
-    if(data.claimed){
+    /* ==========================
+       TODAY
+    ========================== */
 
-      btn.textContent = "Claimed";
+    const today =
+      indiaDate();
 
-      status.className =
-        "status success";
 
-      status.textContent =
-        "✅ Today's reward is already claimed.";
+    /* ==========================
+       CHECK TODAY'S CLAIM
+    ========================== */
 
-      if(data.reward){
+    const {
+      data: todayClaim,
+      error: todayError
+    } =
+      await supabase
+        .from("daily_checkins")
+        .select(
+          "day_number, reward"
+        )
+        .eq(
+          "user_id",
+          telegramId
+        )
+        .eq(
+          "checkin_date",
+          today
+        )
+        .maybeSingle();
 
-        document.getElementById("dailyReward").textContent =
-          "Day " +
-          (data.dayNumber || getPreviewDay()) +
-          " • 🪙 " +
-          data.reward +
-          " coins";
+
+    if (todayError) {
+      throw todayError;
+    }
+
+
+    if (todayClaim) {
+
+      const {
+        data: currentUser,
+        error
+      } =
+        await supabase
+          .from("users")
+          .select("coins")
+          .eq(
+            "id",
+            telegramId
+          )
+          .single();
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      return json({
+        ok: true,
+        claimed: true,
+        reward:
+          Number(
+            todayClaim.reward
+          ),
+        dayNumber:
+          Number(
+            todayClaim.day_number
+          ),
+        coins:
+          Number(
+            currentUser.coins || 0
+          )
+      });
+
+    }
+
+
+    /* ==========================
+       FIND LAST CHECK-IN
+    ========================== */
+
+    const {
+      data: lastClaim,
+      error: lastError
+    } =
+      await supabase
+        .from("daily_checkins")
+        .select(
+          "checkin_date, day_number"
+        )
+        .eq(
+          "user_id",
+          telegramId
+        )
+        .order(
+          "checkin_date",
+          {
+            ascending: false
+          }
+        )
+        .order(
+          "id",
+          {
+            ascending: false
+          }
+        )
+        .limit(1)
+        .maybeSingle();
+
+
+    if (lastError) {
+      throw lastError;
+    }
+
+
+    let nextDay = 1;
+
+
+    if (lastClaim) {
+
+      const yesterday =
+        previousDate(today);
+
+
+      if (
+        lastClaim.checkin_date ===
+        yesterday
+      ) {
+
+        const lastDay =
+          Number(
+            lastClaim.day_number
+          );
+
+        nextDay =
+          lastDay >= 7
+            ? 1
+            : lastDay + 1;
+
+      } else {
+
+        /* Missed a day -> restart */
+
+        nextDay = 1;
 
       }
 
-      return;
+    }
+
+
+    /* ==========================
+       GET REWARD
+    ========================== */
+
+    const {
+      data: rewardRow,
+      error: rewardError
+    } =
+      await supabase
+        .from(
+          "daily_checkin_rewards"
+        )
+        .select("reward")
+        .eq(
+          "day_number",
+          nextDay
+        )
+        .single();
+
+
+    if (rewardError) {
+      throw rewardError;
     }
 
 
     const reward =
-      Number(data.reward || 0);
-
-    const dayNumber =
-      Number(data.dayNumber || getPreviewDay());
-
-
-    btn.textContent = "Claimed";
-
-    status.className =
-      "status success";
-
-    status.textContent =
-      "🎉 +" + reward +
-      " coins added successfully!";
+      Number(
+        rewardRow.reward
+      );
 
 
-    document.getElementById("dailyDescription").textContent =
-      "Today's reward claimed";
+    /* ==========================
+       INSERT CLAIM
+    ========================== */
 
-    document.getElementById("dailyReward").textContent =
-      "Day " + dayNumber +
-      " • 🪙 " + reward + " coins";
+    const {
+      error: insertError
+    } =
+      await supabase
+        .from("daily_checkins")
+        .insert({
+          user_id: telegramId,
+          checkin_date: today,
+          day_number: nextDay,
+          reward: reward
+        });
 
 
-    localStorage.setItem(
-      "ska_last_checkin_date",
-      new Date().toISOString().slice(0,10)
+    if (insertError) {
+
+      /* Another request may have
+         already claimed today */
+
+      if (
+        insertError.code === "23505"
+      ) {
+
+        return json({
+          ok: true,
+          claimed: true,
+          reward: reward,
+          dayNumber: nextDay
+        });
+
+      }
+
+      throw insertError;
+    }
+
+
+    /* ==========================
+       ADD COINS
+    ========================== */
+
+    const {
+      data: updatedUser,
+      error: updateError
+    } =
+      await supabase
+        .from("users")
+        .update({
+          coins:
+            (existingUser
+              ? Number(
+                  existingUser.coins || 0
+                )
+              : 0) + reward
+        })
+        .eq(
+          "id",
+          telegramId
+        )
+        .select("coins")
+        .single();
+
+
+    if (updateError) {
+      throw updateError;
+    }
+
+
+    /* ==========================
+       SUCCESS
+    ========================== */
+
+    return json({
+      ok: true,
+      claimed: false,
+      reward: reward,
+      dayNumber: nextDay,
+      coins:
+        Number(
+          updatedUser.coins
+        )
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "daily-checkin error:",
+      error
     );
 
-    localStorage.setItem(
-      "ska_checkin_day",
-      dayNumber
+
+    return json(
+      {
+        ok: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unknown error"
+      },
+      400
     );
 
-
-  }catch(error){
-
-    console.error(error);
-
-    status.className = "status";
-
-    status.textContent =
-      "❌ " + error.message;
-
-    btn.disabled = false;
-    btn.textContent = "Claim";
-
   }
 
-}
-
-
-/* ==============================
-   CHANNEL
-============================== */
-
-function joinChannel(){
-
-  const url =
-    "https://t.me/SKRewardssi123USDT";
-
-  if(tg.openTelegramLink){
-
-    tg.openTelegramLink(url);
-
-  }else{
-
-    window.open(url,"_blank");
-
-  }
-
-}
-
-
-/* ==============================
-   OTHER TASKS
-============================== */
-
-function comingSoon(){
-
-  document.getElementById("taskStatus").textContent =
-    "🚀 This task will be available soon.";
-
-}
-
-
-/* ==============================
-   REFERRAL
-============================== */
-
-function makeReferralLink(){
-
-  if(!telegramUser){
-    return;
-  }
-
-  const id =
-    telegramUser.id;
-
-  const link =
-    "https://t.me/SKA_RewardsBot?start=ref_" + id;
-
-  document.getElementById("referralText").textContent =
-    link;
-
-}
-
-
-function shareReferral(){
-
-  if(!telegramUser){
-    return;
-  }
-
-  const id =
-    telegramUser.id;
-
-  const link =
-    "https://t.me/SKA_RewardsBot?start=ref_" + id;
-
-  const text =
-    "🎁 Join SKA Rewards and earn rewards!";
-
-  const shareUrl =
-    "https://t.me/share/url?url=" +
-    encodeURIComponent(link) +
-    "&text=" +
-    encodeURIComponent(text);
-
-
-  if(tg.openTelegramLink){
-
-    tg.openTelegramLink(shareUrl);
-
-  }else{
-
-    window.open(shareUrl,"_blank");
-
-  }
-
-}
-
-
-/* ==============================
-   NAVIGATION
-============================== */
-
-function showPage(page){
-
-  const pages = [
-    "homePage",
-    "tasksPage",
-    "referralPage",
-    "walletPage",
-    "profilePage"
-  ];
-
-  pages.forEach(function(id){
-    document.getElementById(id)
-      .classList.add("hidden");
-  });
-
-
-  const navs = [
-    "navHome",
-    "navTasks",
-    "navReferral",
-    "navWallet",
-    "navProfile"
-  ];
-
-  navs.forEach(function(id){
-    document.getElementById(id)
-      .classList.remove("active");
-  });
-
-
-  if(page === "home"){
-
-    document.getElementById("homePage")
-      .classList.remove("hidden");
-
-    document.getElementById("navHome")
-      .classList.add("active");
-
-  }
-
-
-  if(page === "tasks"){
-
-    document.getElementById("tasksPage")
-      .classList.remove("hidden");
-
-    document.getElementById("navTasks")
-      .classList.add("active");
-
-  }
-
-
-  if(page === "referral"){
-
-    document.getElementById("referralPage")
-      .classList.remove("hidden");
-
-    document.getElementById("navReferral")
-      .classList.add("active");
-
-  }
-
-
-  if(page === "wallet"){
-
-    document.getElementById("walletPage")
-      .classList.remove("hidden");
-
-    document.getElementById("navWallet")
-      .classList.add("active");
-
-    updateWallet();
-
-  }
-
-
-  if(page === "profile"){
-
-    document.getElementById("profilePage")
-      .classList.remove("hidden");
-
-    document.getElementById("navProfile")
-      .classList.add("active");
-
-  }
-
-}
-
-</script>
-
-</body>
-</html>
+});
